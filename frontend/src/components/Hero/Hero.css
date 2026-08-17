@@ -1,0 +1,558 @@
+.hero {
+    min-height: calc(100vh - 85px);
+  width: 100%;
+
+  padding: 110px 6vw 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 75% 45%,
+      rgba(0, 229, 255, 0.12),
+      transparent 35%
+    ),
+    #050816;
+}
+
+/* =========================
+   BACKGROUND GLOW
+========================= */
+
+.heroGlow {
+  position: absolute;
+
+  width: 450px;
+  height: 450px;
+
+  border-radius: 50%;
+
+  filter: blur(120px);
+
+  pointer-events: none;
+}
+
+.heroGlowOne {
+  background: rgba(0, 229, 255, 0.08);
+
+  top: 15%;
+  right: 20%;
+}
+
+.heroGlowTwo {
+  background: rgba(124, 58, 237, 0.08);
+
+  bottom: 5%;
+  left: 10%;
+}
+
+/* =========================
+   LEFT CONTENT
+========================= */
+
+.heroContent {
+  width: 48%;
+
+  position: relative;
+
+  z-index: 5;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 9px 16px;
+
+  border: 1px solid rgba(0, 229, 255, 0.45);
+
+  border-radius: 50px;
+
+  color: #00e5ff;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  letter-spacing: 1px;
+
+  background: rgba(0, 229, 255, 0.04);
+}
+
+.badgeDot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #00e5ff;
+
+  box-shadow: 0 0 12px #00e5ff;
+
+  animation: pulse 2s infinite;
+}
+
+.hero h1 {
+  margin-top: 22px;
+
+  font-family: "Poppins", sans-serif;
+
+  font-size: clamp(44px, 4.3vw, 66px);
+
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+
+  color: #ffffff;
+}
+
+.hero h1 span {
+  display: block;
+
+  color: #00e5ff;
+
+  text-shadow:
+    0 0 20px rgba(0, 229, 255, 0.25);
+}
+
+.heroDescription {
+  max-width: 580px;
+
+  margin-top: 20px;
+
+  color: #94a3b8;
+
+  font-size: 18px;
+
+  line-height: 1.8;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.heroButtons {
+  display: flex;
+
+  gap: 16px;
+
+  margin-top: 28px;
+}
+
+.primaryHeroBtn,
+.secondaryHeroBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  padding: 15px 25px;
+
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+}
+
+.primaryHeroBtn {
+  border: none;
+
+  background: #00e5ff;
+
+  color: #020617;
+
+  box-shadow:
+    0 0 25px rgba(0, 229, 255, 0.15);
+}
+
+.primaryHeroBtn:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 0 35px rgba(0, 229, 255, 0.4);
+}
+
+.secondaryHeroBtn {
+  background: rgba(255, 255, 255, 0.02);
+
+  border: 1px solid rgba(0, 229, 255, 0.35);
+
+  color: #ffffff;
+}
+
+.secondaryHeroBtn:hover {
+  border-color: #00e5ff;
+
+  color: #00e5ff;
+
+  transform: translateY(-3px);
+}
+
+/* =========================
+   TRUST ITEMS
+========================= */
+
+.heroTrust {
+  display: flex;
+
+  gap: 30px;
+
+  margin-top: 30px;
+}
+
+.heroTrust div {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  color: #94a3b8;
+
+  font-size: 13px;
+}
+
+.heroTrust svg {
+  color: #00e5ff;
+}
+
+/* =========================
+   RIGHT VISUAL
+========================= */
+
+.heroVisual {
+  width: 48%;
+
+  height: 600px;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+/* Cyber grid */
+
+.cyberGrid {
+  position: absolute;
+
+  width: 600px;
+  height: 600px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      rgba(0, 229, 255, 0.06) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 229, 255, 0.06) 1px,
+      transparent 1px
+    );
+
+  background-size: 40px 40px;
+
+  mask-image: radial-gradient(
+    circle,
+    black 20%,
+    transparent 70%
+  );
+
+  animation: rotateGrid 30s linear infinite;
+}
+
+/* =========================
+   SHIELD
+========================= */
+
+.shieldContainer {
+  position: relative;
+
+  width: 330px;
+  height: 330px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.shieldOuter {
+  width: 250px;
+  height: 290px;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: #00e5ff;
+
+  filter:
+    drop-shadow(0 0 18px rgba(0, 229, 255, 0.7));
+}
+
+.shieldX {
+  position: absolute;
+
+  font-size: 95px;
+
+  font-family: "Poppins", sans-serif;
+
+  font-weight: 800;
+
+  color: #00e5ff;
+
+  text-shadow:
+    0 0 20px #00e5ff,
+    0 0 50px rgba(0, 229, 255, 0.5);
+}
+
+/* =========================
+   SCAN RINGS
+========================= */
+
+.scanRing {
+  position: absolute;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(0, 229, 255, 0.35);
+
+  left: 50%;
+  top: 70%;
+
+  transform: translate(-50%, -50%);
+}
+
+.ringOne {
+  width: 330px;
+  height: 100px;
+}
+
+.ringTwo {
+  width: 430px;
+  height: 130px;
+}
+
+.ringThree {
+  width: 530px;
+  height: 160px;
+}
+
+/* =========================
+   SECURITY CARDS
+========================= */
+
+.securityCard {
+  position: absolute;
+
+  min-width: 190px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  background: rgba(5, 15, 30, 0.85);
+
+  border: 1px solid rgba(0, 229, 255, 0.3);
+
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.3);
+
+  animation: floatCard 4s ease-in-out infinite;
+}
+
+.securityCard svg {
+  color: #00e5ff;
+}
+
+.securityCard strong {
+  display: block;
+
+  color: white;
+
+  font-size: 13px;
+}
+
+.securityCard small {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #22c55e;
+
+  font-size: 11px;
+}
+
+.malwareCard {
+  top: 15%;
+  left: 2%;
+}
+
+.phishingCard {
+  top: 20%;
+  right: 0;
+
+  animation-delay: 1s;
+}
+
+.passwordCard {
+  bottom: 22%;
+  left: 0;
+
+  animation-delay: 2s;
+}
+
+.urlCard {
+  bottom: 18%;
+  right: 2%;
+
+  animation-delay: 3s;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes floatCard {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes rotateGrid {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+  .hero {
+    flex-direction: column;
+
+    padding-top: 130px;
+  }
+
+  .heroContent,
+  .heroVisual {
+    width: 100%;
+  }
+
+  .heroContent {
+    text-align: center;
+  }
+
+  .heroDescription {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .heroButtons,
+  .heroTrust {
+    justify-content: center;
+  }
+
+  .heroVisual {
+    margin-top: 40px;
+
+    height: 500px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .heroDescription {
+    font-size: 15px;
+  }
+
+  .heroButtons {
+    flex-direction: column;
+  }
+
+  .heroTrust {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .securityCard {
+    min-width: 155px;
+
+    padding: 10px;
+
+    transform: scale(0.8);
+  }
+
+  .malwareCard {
+    left: -20px;
+  }
+
+  .phishingCard {
+    right: -20px;
+  }
+
+  .passwordCard {
+    left: -20px;
+  }
+
+  .urlCard {
+    right: -20px;
+  }
+}

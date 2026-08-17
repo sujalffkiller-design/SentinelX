@@ -1,0 +1,76 @@
+.featuresSection {
+  padding: 80px 6vw;
+  background: #050816;
+}
+
+.featuresSection h2 {
+  text-align: center;
+  font-size: 42px;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 55px;
+}
+
+.featuresSection span {
+  color: #00e5ff;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.featureCard {
+  background: rgba(10, 20, 35, 0.85);
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  border-radius: 18px;
+  padding: 30px;
+  transition: 0.35s ease;
+  backdrop-filter: blur(12px);
+}
+
+.featureCard:hover {
+  transform: translateY(-8px);
+  border-color: #00e5ff;
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.18);
+}
+
+.featureIcon {
+  color: #00e5ff;
+  margin-bottom: 18px;
+}
+
+.featureCard h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.featureCard p {
+  color: #94a3b8;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.featureCard button {
+  background: transparent;
+  color: #00e5ff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+  .featureGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .featuresSection h2 {
+    font-size: 32px;
+  }
+}

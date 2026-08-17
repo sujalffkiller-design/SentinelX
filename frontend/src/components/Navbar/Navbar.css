@@ -1,0 +1,419 @@
+/* ================================
+   SENTINELX NAVBAR
+================================ */
+
+.navbar {
+  width: 100%;
+  min-height: 76px;
+  padding: 0 40px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: rgba(5, 10, 20, 0.92);
+  border-bottom: 1px solid rgba(0, 255, 255, 0.12);
+
+  position: relative;
+  z-index: 1000;
+}
+
+/* ================================
+   LEFT SIDE
+================================ */
+
+.leftSide {
+  display: flex;
+  align-items: center;
+  gap: 55px;
+}
+
+/* ================================
+   LOGO
+================================ */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.logoIcon {
+  font-size: 32px;
+
+  filter:
+    drop-shadow(0 0 6px #00ffff)
+    drop-shadow(0 0 14px rgba(0, 255, 255, 0.8));
+}
+
+.logo h2 {
+  margin: 0;
+
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 0 5px rgba(255, 255, 255, 0.4);
+}
+
+.logo h2 span {
+  color: #00ffff;
+
+  text-shadow:
+    0 0 5px #00ffff,
+    0 0 12px #00ffff,
+    0 0 25px rgba(0, 255, 255, 0.8);
+}
+
+/* ================================
+   NAV LINKS
+================================ */
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.navLinks li {
+  display: flex;
+  align-items: center;
+}
+
+.navLinks a {
+  color: #aeb9c8;
+
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  white-space: nowrap;
+
+  transition: 0.25s ease;
+}
+
+.navLinks a:hover {
+  color: #00ffff;
+
+  text-shadow:
+    0 0 8px rgba(0, 255, 255, 0.7);
+}
+
+/* ================================
+   RIGHT SIDE
+================================ */
+
+.navButtons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-left: 30px;
+}
+
+/* ================================
+   LOGIN
+================================ */
+
+.nav-login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 42px;
+  padding: 0 20px;
+
+  box-sizing: border-box;
+
+  color: #00ffff;
+
+  border: 1px solid rgba(0, 255, 255, 0.45);
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  transition: 0.25s ease;
+}
+
+.nav-login:hover {
+  background: rgba(0, 255, 255, 0.08);
+
+  border-color: #00ffff;
+
+  box-shadow:
+    0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+/* ================================
+   REGISTER
+================================ */
+
+.nav-get-started {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 42px;
+  padding: 0 20px;
+
+  box-sizing: border-box;
+
+  color: #041014;
+
+  background: #00ffff;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+
+  transition: 0.25s ease;
+}
+
+.nav-get-started:hover {
+  box-shadow:
+    0 0 10px #00ffff,
+    0 0 25px rgba(0, 255, 255, 0.6);
+
+  transform: translateY(-1px);
+}
+
+/* ================================
+   PROFILE
+================================ */
+
+.profile-container {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+.profile-button {
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 0 15px;
+
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 9px;
+
+  background: rgba(0, 255, 255, 0.04);
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition: 0.25s ease;
+}
+
+.profile-button:hover {
+  border-color: #00ffff;
+
+  background: rgba(0, 255, 255, 0.08);
+
+  box-shadow:
+    0 0 12px rgba(0, 255, 255, 0.25);
+}
+
+.profile-icon {
+  font-size: 18px;
+}
+
+.profile-name {
+  max-width: 110px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-arrow {
+  font-size: 9px;
+  color: #00ffff;
+}
+
+/* ================================
+   PROFILE DROPDOWN
+================================ */
+
+.profile-menu {
+  position: absolute;
+
+  top: calc(100% + 12px);
+  right: 0;
+
+  width: 280px;
+
+  padding: 12px;
+
+  background: #08111f;
+
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 14px;
+
+  box-shadow:
+    0 15px 50px rgba(0, 0, 0, 0.55),
+    0 0 20px rgba(0, 255, 255, 0.08);
+
+  z-index: 2000;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 10px;
+}
+
+.profile-avatar {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba(0, 255, 255, 0.08);
+
+  border: 1px solid rgba(0, 255, 255, 0.25);
+}
+
+.profile-info strong {
+  display: block;
+
+  color: #ffffff;
+
+  font-size: 14px;
+}
+
+.profile-info p {
+  margin: 4px 0 0;
+
+  color: #8290a3;
+
+  font-size: 12px;
+
+  word-break: break-all;
+}
+
+.profile-divider {
+  height: 1px;
+
+  margin: 8px 0;
+
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.profile-menu button {
+  width: 100%;
+
+  display: block;
+
+  padding: 11px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #d8e1ec;
+
+  text-align: left;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.profile-menu button:hover {
+  background: rgba(0, 255, 255, 0.06);
+
+  color: #00ffff;
+}
+
+.profile-menu .logout-button {
+  color: #ff6b6b;
+}
+
+.profile-menu .logout-button:hover {
+  color: #ff8585;
+
+  background: rgba(255, 80, 80, 0.08);
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1000px) {
+
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .leftSide {
+    gap: 25px;
+  }
+
+  .navLinks {
+    gap: 18px;
+  }
+
+  .navLinks a {
+    font-size: 14px;
+  }
+
+}
+
+@media (max-width: 800px) {
+
+  .navbar {
+    min-height: 70px;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .leftSide {
+    gap: 0;
+  }
+
+}

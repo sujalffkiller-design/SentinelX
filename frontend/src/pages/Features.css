@@ -1,0 +1,147 @@
+.features-page {
+  min-height: 100vh;
+  padding: 120px 8% 80px;
+  background: #020817;
+  color: #ffffff;
+}
+
+.features-hero {
+  max-width: 900px;
+  margin: 0 auto 100px;
+  text-align: center;
+}
+
+.features-label {
+  margin-bottom: 18px;
+  color: #00d9ff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.features-hero h1 {
+  margin: 0;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1.05;
+}
+
+.features-hero h1 span {
+  color: #00d9ff;
+}
+
+.features-intro {
+  max-width: 700px;
+  margin: 25px auto 0;
+  color: #8fa3bd;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.features-grid-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-section-heading {
+  margin-bottom: 35px;
+}
+
+.features-section-heading p {
+  margin-bottom: 8px;
+  color: #00d9ff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.features-section-heading h2 {
+  margin: 0;
+  font-size: 36px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.feature-detail-card {
+  min-height: 230px;
+  padding: 30px;
+  border: 1px solid #103849;
+  border-radius: 18px;
+  background: #06131d;
+  transition: 0.3s ease;
+}
+
+.feature-detail-card:hover {
+  transform: translateY(-6px);
+  border-color: #00d9ff;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+}
+
+.feature-detail-icon {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  border: 1px solid #07536a;
+  border-radius: 14px;
+  background: rgba(0, 217, 255, 0.08);
+  color: #00d9ff;
+}
+
+.feature-detail-card h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.feature-detail-card p {
+  margin: 0;
+  color: #8298ad;
+  line-height: 1.7;
+}
+
+.features-bottom {
+  max-width: 800px;
+  margin: 120px auto 0;
+  padding: 55px 35px;
+  border: 1px solid #103849;
+  border-radius: 22px;
+  background: #06131d;
+  text-align: center;
+}
+
+.features-bottom h2 {
+  margin: 10px 0 15px;
+  font-size: 38px;
+}
+
+.features-bottom > p:last-child {
+  margin: 0 auto;
+  max-width: 600px;
+  color: #8298ad;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .features-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .features-page {
+    padding: 100px 20px 60px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-bottom {
+    padding: 40px 25px;
+  }
+}

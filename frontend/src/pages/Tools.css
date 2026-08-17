@@ -1,0 +1,90 @@
+.tools-page {
+  min-height: 100vh;
+  padding: 140px 8% 80px;
+  background: #020817;
+  color: white;
+}
+
+.tools-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.tools-header p {
+  color: #00e5ff;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.tools-header h1 {
+  font-size: 48px;
+  margin: 15px 0;
+}
+
+.tools-header span {
+  color: #8fa3bd;
+  font-size: 18px;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.tool-card {
+  background: #031b26;
+  border: 1px solid #034c61;
+  border-radius: 20px;
+  padding: 35px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.tool-card:hover {
+  transform: translateY(-8px);
+  border-color: #00e5ff;
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+}
+
+.tool-icon {
+  font-size: 45px;
+  margin-bottom: 20px;
+}
+
+.tool-card h2 {
+  margin-bottom: 15px;
+}
+
+.tool-card p {
+  color: #8fa3bd;
+  line-height: 1.6;
+  min-height: 75px;
+}
+
+.tool-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 13px 20px;
+  background: #00d9f5;
+  color: #001018;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.tool-button:hover {
+  background: #00f0ff;
+}
+
+@media (max-width: 900px) {
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tools-header h1 {
+    font-size: 36px;
+  }
+}

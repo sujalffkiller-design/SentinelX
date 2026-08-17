@@ -1,0 +1,165 @@
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 20px;
+
+  background: #030712;
+  color: #ffffff;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 440px;
+
+  padding: 40px;
+
+  border: 1px solid #123647;
+  border-radius: 20px;
+
+  background: #06131d;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.register-logo {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 18px;
+
+  border: 1px solid #00d9ff;
+  border-radius: 15px;
+
+  background: rgba(0, 217, 255, 0.08);
+
+  font-size: 27px;
+}
+
+.register-label {
+  margin: 0;
+
+  text-align: center;
+
+  color: #00d9ff;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.register-card h1 {
+  margin: 10px 0 8px;
+
+  text-align: center;
+
+  font-size: 32px;
+}
+
+.register-subtitle {
+  margin: 0 0 30px;
+
+  text-align: center;
+
+  color: #7890aa;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #a9bfd0;
+
+  font-size: 13px;
+}
+
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border: 1px solid #173b4b;
+  border-radius: 9px;
+
+  outline: none;
+
+  background: #081b27;
+  color: #ffffff;
+
+  font-size: 14px;
+
+  transition: 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #00d9ff;
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.08);
+}
+
+.form-group input::placeholder {
+  color: #526d7e;
+}
+
+.register-message {
+  margin: 10px 0;
+
+  color: #00d9ff;
+
+  text-align: center;
+
+  font-size: 13px;
+}
+
+.register-button {
+  width: 100%;
+
+  padding: 14px;
+
+  margin-top: 8px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #00d9ff;
+  color: #021018;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.register-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.login-link {
+  margin: 24px 0 0;
+
+  text-align: center;
+
+  color: #7890aa;
+
+  font-size: 13px;
+}
+
+.login-link span {
+  color: #00d9ff;
+  cursor: pointer;
+}

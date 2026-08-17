@@ -1,0 +1,141 @@
+.securityFlow {
+  padding: 110px 6vw;
+  background: #050816;
+  position: relative;
+  overflow: hidden;
+}
+
+.flowHeading {
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto 70px;
+}
+
+.flowHeading > span {
+  color: #00e5ff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.flowHeading h2 {
+  margin-top: 15px;
+  font-size: clamp(36px, 4vw, 52px);
+  line-height: 1.15;
+}
+
+.flowHeading h2 strong {
+  color: #00e5ff;
+}
+
+.flowHeading p {
+  margin-top: 20px;
+  color: #94a3b8;
+  line-height: 1.7;
+}
+
+/* Flow */
+
+.flowContainer {
+  max-width: 1250px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+}
+
+.flowStep {
+  position: relative;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.stepNumber {
+  color: #334155;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+}
+
+.stepIcon {
+  width: 65px;
+  height: 65px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #00e5ff;
+
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 16px;
+
+  background: rgba(0, 229, 255, 0.05);
+
+  box-shadow:
+    0 0 25px rgba(0, 229, 255, 0.08);
+
+  transition: 0.3s ease;
+}
+
+.flowStep:hover .stepIcon {
+  transform: translateY(-6px);
+  border-color: #00e5ff;
+  box-shadow:
+    0 0 35px rgba(0, 229, 255, 0.2);
+}
+
+.flowStep h3 {
+  margin-top: 22px;
+  font-size: 19px;
+}
+
+.flowStep p {
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* Connecting line */
+
+.flowLine {
+  position: absolute;
+
+  top: 82px;
+  left: calc(50% + 35px);
+
+  width: calc(100% - 70px);
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(0, 229, 255, 0.5),
+    rgba(0, 229, 255, 0.05)
+  );
+}
+
+/* Responsive */
+
+@media (max-width: 950px) {
+  .flowContainer {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 40px;
+  }
+
+  .flowLine {
+    display: none;
+  }
+}
+
+@media (max-width: 550px) {
+  .securityFlow {
+    padding: 80px 5vw;
+  }
+
+  .flowContainer {
+    grid-template-columns: 1fr;
+  }
+}

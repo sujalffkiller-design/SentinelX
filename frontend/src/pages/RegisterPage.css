@@ -1,0 +1,135 @@
+.register-page {
+  min-height: 100vh;
+  padding: 120px 20px 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #020817;
+  color: #ffffff;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 40px;
+  border: 1px solid #123b4b;
+  border-radius: 22px;
+  background: #06131d;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+}
+
+.register-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.register-logo {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #07536a;
+  border-radius: 16px;
+  background: rgba(0, 217, 255, 0.08);
+  font-size: 30px;
+}
+
+.register-header h1 {
+  margin: 0 0 10px;
+  font-size: 28px;
+}
+
+.register-header p {
+  margin: 0;
+  color: #8298ad;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #c4d4e2;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  border: 1px solid #174456;
+  border-radius: 10px;
+  outline: none;
+  background: #020b13;
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.form-group input:focus {
+  border-color: #00d9ff;
+  box-shadow: 0 0 0 2px rgba(0, 217, 255, 0.08);
+}
+
+.form-group input::placeholder {
+  color: #526b7d;
+}
+
+.password-input {
+  position: relative;
+}
+
+.password-input input {
+  padding-right: 65px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #00d9ff;
+  cursor: pointer;
+}
+
+.register-button {
+  width: 100%;
+  margin-top: 5px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #00d9ff;
+  color: #021018;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.register-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 217, 255, 0.2);
+}
+
+.register-login {
+  margin-top: 25px;
+  text-align: center;
+  color: #8298ad;
+  font-size: 14px;
+}
+
+.register-login a {
+  color: #00d9ff;
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .register-card {
+    padding: 28px 20px;
+  }
+}
