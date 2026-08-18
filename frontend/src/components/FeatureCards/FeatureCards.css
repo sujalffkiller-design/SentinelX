@@ -1,71 +1,188 @@
+/* ================================
+   SENTINELX FEATURE SECTION
+================================ */
+
 .featuresSection {
   padding: 80px 6vw;
-  background: #050816;
+  background: var(--bg-primary);
 }
+
+
+/* ================================
+   SECTION TITLE
+================================ */
 
 .featuresSection h2 {
   text-align: center;
+
   font-size: 42px;
+
   font-family: "Poppins", sans-serif;
+
   margin-bottom: 55px;
+
+  color: var(--hero-heading, #ffffff);
+
+  transition: color 0.3s ease;
 }
 
 .featuresSection span {
   color: #00e5ff;
 }
 
+
+/* ================================
+   FEATURE GRID
+================================ */
+
 .featureGrid {
   display: grid;
+
   grid-template-columns: repeat(3, 1fr);
+
   gap: 24px;
 }
 
+
+/* ================================
+   FEATURE CARD
+================================ */
+
 .featureCard {
-  background: rgba(10, 20, 35, 0.85);
+  background: var(--bg-card);
+
   border: 1px solid rgba(0, 229, 255, 0.15);
+
   border-radius: 18px;
+
   padding: 30px;
-  transition: 0.35s ease;
+
+  transition:
+    0.35s ease,
+    background 0.3s ease;
+  
   backdrop-filter: blur(12px);
+
+  box-shadow: 0 10px 30px var(
+    --feature-card-shadow,
+    rgba(0, 0, 0, 0.12)
+  );
 }
 
 .featureCard:hover {
   transform: translateY(-8px);
+
   border-color: #00e5ff;
-  box-shadow: 0 0 30px rgba(0, 229, 255, 0.18);
+
+  box-shadow:
+    0 0 30px rgba(0, 229, 255, 0.18);
 }
+
+
+/* ================================
+   FEATURE ICON
+================================ */
 
 .featureIcon {
   color: #00e5ff;
+
   margin-bottom: 18px;
 }
 
+
+/* ================================
+   FEATURE TITLE
+================================ */
+
 .featureCard h3 {
   font-size: 22px;
+
   margin-bottom: 12px;
+
+  color: var(
+    --feature-card-title,
+    #ffffff
+  );
+
+  transition: color 0.3s ease;
 }
 
+
+/* ================================
+   FEATURE DESCRIPTION
+================================ */
+
 .featureCard p {
-  color: #94a3b8;
+  color: var(--text-secondary);
+
   line-height: 1.7;
+
   margin-bottom: 24px;
+
+  transition: color 0.3s ease;
 }
+
+
+/* ================================
+   BUTTON
+================================ */
 
 .featureCard button {
   background: transparent;
+
   color: #00e5ff;
+
   border: none;
+
   font-weight: 600;
+
   cursor: pointer;
+
+  transition: 0.25s ease;
 }
 
+.featureCard button:hover {
+  text-shadow:
+    0 0 10px rgba(0, 229, 255, 0.7);
+}
+
+
+/* ================================
+   LIGHT MODE
+================================ */
+
+body.light-mode {
+
+  --page-bg: #f4f8fc;
+
+  --hero-heading: #071522;
+
+  --feature-card-bg: rgba(255, 255, 255, 0.9);
+
+  --feature-card-title: #071522;
+
+  --feature-card-text: #52677a;
+
+  --feature-card-shadow:
+    rgba(0, 80, 120, 0.08);
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
 @media (max-width: 1000px) {
+
   .featureGrid {
     grid-template-columns: repeat(2, 1fr);
   }
+
 }
 
+
 @media (max-width: 700px) {
+
   .featureGrid {
     grid-template-columns: 1fr;
   }
@@ -73,4 +190,5 @@
   .featuresSection h2 {
     font-size: 32px;
   }
+
 }

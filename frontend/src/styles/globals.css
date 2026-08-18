@@ -1,35 +1,331 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap");
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* =========================================
+   RESET
+========================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-    scroll-behavior:smooth;
+html {
+  scroll-behavior: smooth;
 }
 
-body{
-    background:#050816;
-    color:white;
-    font-family:"Inter",sans-serif;
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
 }
 
-a{
-    text-decoration:none;
-    color:inherit;
+/* =========================================
+   DARK MODE VARIABLES
+========================================= */
+
+:root {
+  --bg-primary: #050816;
+  --bg-secondary: #071522;
+  --bg-card: rgba(10, 20, 35, 0.85);
+
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+
+  --border-color: rgba(0, 229, 255, 0.15);
+
+  --cyan: #00e5ff;
+
+  --navbar-bg: rgba(5, 10, 20, 0.92);
+  --navbar-border: rgba(0, 255, 255, 0.12);
+  --navbar-text: #ffffff;
+  --navbar-link: #aeb9c8;
+  --navbar-muted: #8290a3;
+  --navbar-divider: rgba(255, 255, 255, 0.08);
+
+  --profile-menu-bg: #08111f;
+  --profile-button-text: #d8e1ec;
 }
 
-button{
-    cursor:pointer;
+/* =========================================
+   LIGHT MODE VARIABLES
+========================================= */
+
+body.light-mode {
+  --bg-primary: #f4f7fb;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+
+  --text-primary: #111827;
+  --text-secondary: #475569;
+
+  --border-color: rgba(15, 23, 42, 0.12);
+
+  --cyan: #0088aa;
+
+  --navbar-bg: #ffffff;
+  --navbar-border: rgba(0, 119, 204, 0.15);
+  --navbar-text: #071522;
+  --navbar-link: #52677a;
+  --navbar-muted: #667b8d;
+  --navbar-divider: rgba(7, 21, 34, 0.1);
+
+  --profile-menu-bg: #ffffff;
+  --profile-button-text: #071522;
 }
 
-::-webkit-scrollbar{
-    width:8px;
+/* =========================================
+   BODY
+========================================= */
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+
+  font-family: "Inter", sans-serif;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
-::-webkit-scrollbar-thumb{
-    background:#00E5FF;
-    border-radius:20px;
+/* =========================================
+   LINKS / BUTTONS
+========================================= */
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* =========================================
+   LIGHT MODE - GLOBAL PAGE BACKGROUNDS
+========================================= */
+
+/*
+   Your component CSS currently contains
+   hardcoded #050816 backgrounds.
+   These overrides make them light.
+*/
+
+body.light-mode .hero,
+body.light-mode .featuresSection,
+body.light-mode .threatSection,
+body.light-mode .securityFlow {
+  background: var(--bg-primary) !important;
+}
+
+/* =========================================
+   LIGHT MODE - HERO
+========================================= */
+
+body.light-mode .hero {
+  color: var(--text-primary);
+}
+
+body.light-mode .hero h1 {
+  color: #111827;
+}
+
+body.light-mode .heroDescription {
+  color: #475569;
+}
+
+body.light-mode .secondaryHeroBtn {
+  color: #111827;
+  background: rgba(0, 136, 170, 0.04);
+}
+
+body.light-mode .heroTrust div {
+  color: #64748b;
+}
+
+body.light-mode .securityCard {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 136, 170, 0.2);
+  box-shadow: 0 10px 35px rgba(15, 23, 42, 0.1);
+}
+
+body.light-mode .securityCard strong {
+  color: #111827;
+}
+
+/* =========================================
+   LIGHT MODE - FEATURES
+========================================= */
+
+body.light-mode .featuresSection h2 {
+  color: #111827;
+}
+
+body.light-mode .featureCard {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.1);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+body.light-mode .featureCard h3 {
+  color: #111827;
+}
+
+body.light-mode .featureCard p {
+  color: #64748b;
+}
+
+/* =========================================
+   LIGHT MODE - THREAT MONITOR
+========================================= */
+
+body.light-mode .threatHeader h2 {
+  color: #111827;
+}
+
+body.light-mode .threatHeader p {
+  color: #64748b;
+}
+
+body.light-mode .threatPanel {
+  background: #ffffff;
+  border-color: rgba(15, 23, 42, 0.1);
+  box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+}
+
+body.light-mode .monitorTop {
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light-mode .threatItem {
+  border-bottom-color: rgba(15, 23, 42, 0.07);
+}
+
+body.light-mode .threatItem:hover {
+  background: rgba(0, 136, 170, 0.04);
+}
+
+body.light-mode .threatInfo strong {
+  color: #111827;
+}
+
+body.light-mode .threatInfo p {
+  color: #64748b;
+}
+
+body.light-mode .threatTime {
+  color: #64748b;
+}
+
+body.light-mode .activityGraph {
+  border-top-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light-mode .graphHeader {
+  color: #475569;
+}
+
+/* =========================================
+   LIGHT MODE - SECURITY FLOW
+========================================= */
+
+body.light-mode .flowHeading h2 {
+  color: #111827;
+}
+
+body.light-mode .flowHeading p {
+  color: #64748b;
+}
+
+body.light-mode .stepNumber {
+  color: #64748b;
+}
+
+body.light-mode .flowStep h3 {
+  color: #111827;
+}
+
+body.light-mode .flowStep p {
+  color: #64748b;
+}
+
+body.light-mode .stepIcon {
+  background: rgba(0, 136, 170, 0.05);
+  border-color: rgba(0, 136, 170, 0.2);
+}
+
+/* =========================================
+   LIGHT MODE - DASHBOARD
+========================================= */
+
+/*
+   Dashboard has its own CSS.
+   These broad overrides prevent the entire
+   dashboard from staying dark.
+*/
+
+body.light-mode .dashboard {
+  background: var(--bg-primary) !important;
+  color: #111827;
+}
+
+body.light-mode .dashboard-card,
+body.light-mode .activity-card,
+body.light-mode .quick-card {
+  background: #ffffff !important;
+  color: #111827;
+  border-color: rgba(15, 23, 42, 0.1);
+}
+
+body.light-mode .dashboard-card h2,
+body.light-mode .dashboard-card p,
+body.light-mode .activity-card h2,
+body.light-mode .activity-card h3,
+body.light-mode .quick-card h2 {
+  color: #111827;
+}
+
+/* =========================================
+   LIGHT MODE - TOOLS / FEATURES / ABOUT
+========================================= */
+
+body.light-mode .tools-page,
+body.light-mode .features-page,
+body.light-mode .about-page {
+  background: var(--bg-primary) !important;
+  color: #111827;
+}
+
+/* =========================================
+   LIGHT MODE - GENERIC SECTIONS
+========================================= */
+
+body.light-mode section {
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00e5ff;
+  border-radius: 20px;
+}
+
+body.light-mode ::-webkit-scrollbar-thumb {
+  background: #0088aa;
 }

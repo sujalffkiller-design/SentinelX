@@ -12,12 +12,17 @@
   align-items: center;
   justify-content: space-between;
 
-  background: rgba(5, 10, 20, 0.92);
-  border-bottom: 1px solid rgba(0, 255, 255, 0.12);
+  background: var(--navbar-bg, rgba(5, 10, 20, 0.92));
+  border-bottom: 1px solid var(--navbar-border, rgba(0, 255, 255, 0.12));
 
   position: relative;
   z-index: 1000;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
 }
+
 
 /* ================================
    LEFT SIDE
@@ -28,6 +33,7 @@
   align-items: center;
   gap: 55px;
 }
+
 
 /* ================================
    LOGO
@@ -57,7 +63,7 @@
   font-weight: 800;
   letter-spacing: 0.5px;
 
-  color: #ffffff;
+  color: var(--navbar-text, #ffffff);
 
   text-shadow:
     0 0 5px rgba(255, 255, 255, 0.4);
@@ -71,6 +77,7 @@
     0 0 12px #00ffff,
     0 0 25px rgba(0, 255, 255, 0.8);
 }
+
 
 /* ================================
    NAV LINKS
@@ -93,7 +100,7 @@
 }
 
 .navLinks a {
-  color: #aeb9c8;
+  color: var(--navbar-link, #aeb9c8);
 
   text-decoration: none;
 
@@ -112,6 +119,7 @@
     0 0 8px rgba(0, 255, 255, 0.7);
 }
 
+
 /* ================================
    RIGHT SIDE
 ================================ */
@@ -125,6 +133,7 @@
 
   margin-left: 30px;
 }
+
 
 /* ================================
    LOGIN
@@ -163,6 +172,7 @@
     0 0 10px rgba(0, 255, 255, 0.3);
 }
 
+
 /* ================================
    REGISTER
 ================================ */
@@ -178,7 +188,6 @@
   box-sizing: border-box;
 
   color: #041014;
-
   background: #00ffff;
 
   border-radius: 8px;
@@ -199,6 +208,7 @@
 
   transform: translateY(-1px);
 }
+
 
 /* ================================
    PROFILE
@@ -225,7 +235,7 @@
 
   background: rgba(0, 255, 255, 0.04);
 
-  color: #ffffff;
+  color: var(--navbar-text, #ffffff);
 
   font-size: 14px;
   font-weight: 600;
@@ -263,6 +273,7 @@
   color: #00ffff;
 }
 
+
 /* ================================
    PROFILE DROPDOWN
 ================================ */
@@ -277,7 +288,7 @@
 
   padding: 12px;
 
-  background: #08111f;
+  background: var(--profile-menu-bg, #08111f);
 
   border: 1px solid rgba(0, 255, 255, 0.2);
   border-radius: 14px;
@@ -287,6 +298,10 @@
     0 0 20px rgba(0, 255, 255, 0.08);
 
   z-index: 2000;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
 }
 
 .profile-info {
@@ -309,14 +324,13 @@
   border-radius: 50%;
 
   background: rgba(0, 255, 255, 0.08);
-
   border: 1px solid rgba(0, 255, 255, 0.25);
 }
 
 .profile-info strong {
   display: block;
 
-  color: #ffffff;
+  color: var(--navbar-text, #ffffff);
 
   font-size: 14px;
 }
@@ -324,7 +338,7 @@
 .profile-info p {
   margin: 4px 0 0;
 
-  color: #8290a3;
+  color: var(--navbar-muted, #8290a3);
 
   font-size: 12px;
 
@@ -336,7 +350,10 @@
 
   margin: 8px 0;
 
-  background: rgba(255, 255, 255, 0.08);
+  background: var(
+    --navbar-divider,
+    rgba(255, 255, 255, 0.08)
+  );
 }
 
 .profile-menu button {
@@ -351,7 +368,7 @@
 
   background: transparent;
 
-  color: #d8e1ec;
+  color: var(--profile-button-text, #d8e1ec);
 
   text-align: left;
 
@@ -378,6 +395,49 @@
   background: rgba(255, 80, 80, 0.08);
 }
 
+
+/* ================================
+   LIGHT MODE
+================================ */
+
+body.light-mode {
+
+  --navbar-bg: #ffffff;
+
+  --navbar-border: rgba(0, 119, 204, 0.15);
+
+  --navbar-text: #071522;
+
+  --navbar-link: #52677a;
+
+  --navbar-muted: #667b8d;
+
+  --navbar-divider: rgba(7, 21, 34, 0.10);
+
+  --profile-menu-bg: #ffffff;
+
+  --profile-button-text: #071522;
+}
+
+
+/* ================================
+   LIGHT MODE PROFILE
+================================ */
+
+body.light-mode .profile-button {
+  background: rgba(0, 119, 204, 0.04);
+}
+
+body.light-mode .profile-menu {
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+body.light-mode .profile-menu button:hover {
+  background: rgba(0, 119, 204, 0.06);
+}
+
+
 /* ================================
    RESPONSIVE
 ================================ */
@@ -401,6 +461,7 @@
   }
 
 }
+
 
 @media (max-width: 800px) {
 

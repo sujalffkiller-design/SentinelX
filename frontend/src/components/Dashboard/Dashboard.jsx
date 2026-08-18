@@ -7,6 +7,8 @@ function Dashboard() {
 const [history] = useState(() => {
   const savedHistory = localStorage.getItem("sentinelx_scan_history");
 
+  
+
   return savedHistory ? JSON.parse(savedHistory) : [];
 });
 

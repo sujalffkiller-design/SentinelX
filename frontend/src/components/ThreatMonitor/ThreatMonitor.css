@@ -1,25 +1,44 @@
+/* ================================
+   SENTINELX THREAT MONITOR
+================================ */
+
 .threatSection {
   padding: 100px 6vw;
-  background: #050816;
+
+  background: var(--page-bg, #050816);
+
   position: relative;
   overflow: hidden;
+
+  transition: background 0.3s ease;
 }
+
+
+/* ================================
+   HEADER
+================================ */
 
 .threatHeader {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+
   gap: 40px;
+
   margin-bottom: 45px;
 }
 
 .sectionLabel {
   display: flex;
   align-items: center;
+
   gap: 9px;
+
   color: #00e5ff;
+
   font-size: 12px;
   font-weight: 700;
+
   letter-spacing: 1.5px;
 }
 
@@ -27,17 +46,28 @@
 .monitorIndicator {
   width: 8px;
   height: 8px;
+
   border-radius: 50%;
+
   background: #22c55e;
+
   box-shadow: 0 0 12px #22c55e;
+
   animation: livePulse 1.8s infinite;
 }
 
 .threatHeader h2 {
   margin-top: 15px;
+
   font-family: "Poppins", sans-serif;
+
   font-size: clamp(34px, 4vw, 52px);
+
   line-height: 1.15;
+
+  color: var(--hero-heading, #ffffff);
+
+  transition: color 0.3s ease;
 }
 
 .threatHeader h2 span {
@@ -46,20 +76,38 @@
 
 .threatHeader p {
   max-width: 650px;
+
   margin-top: 18px;
-  color: #94a3b8;
+
+  color: var(--hero-text, #94a3b8);
+
   line-height: 1.7;
+
+  transition: color 0.3s ease;
 }
+
+
+/* ================================
+   SYSTEM STATUS
+================================ */
 
 .systemStatus {
   min-width: 250px;
+
   display: flex;
   align-items: center;
+
   gap: 14px;
+
   padding: 18px 20px;
+
   border: 1px solid rgba(34, 197, 94, 0.2);
+
   border-radius: 14px;
+
   background: rgba(34, 197, 94, 0.04);
+
+  transition: background 0.3s ease;
 }
 
 .systemStatus > svg {
@@ -68,60 +116,107 @@
 
 .systemStatus strong {
   display: block;
+
   font-size: 13px;
+
+  color: var(--hero-heading, #ffffff);
 }
 
 .systemStatus span {
   display: flex;
   align-items: center;
+
   gap: 7px;
+
   margin-top: 5px;
+
   color: #22c55e;
+
   font-size: 11px;
 }
 
 .systemStatus i {
   width: 6px;
   height: 6px;
+
   border-radius: 50%;
+
   background: #22c55e;
 }
 
-/* Monitor */
+
+/* ================================
+   MONITOR PANEL
+================================ */
 
 .threatPanel {
   border: 1px solid rgba(0, 229, 255, 0.15);
+
   border-radius: 20px;
-  background: rgba(8, 18, 32, 0.8);
+
+  background: var(
+    --threat-panel-bg,
+    rgba(8, 18, 32, 0.8)
+  );
+
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+
+  box-shadow:
+    0 20px 60px var(
+      --threat-panel-shadow,
+      rgba(0, 0, 0, 0.25)
+    );
+
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease;
 }
+
+
+/* ================================
+   MONITOR TOP
+================================ */
 
 .monitorTop {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
+
   padding: 20px 25px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+  border-bottom: 1px solid var(
+    --threat-divider,
+    rgba(255, 255, 255, 0.06)
+  );
+
   color: #00e5ff;
+
   font-size: 12px;
   font-weight: 700;
+
   letter-spacing: 1px;
 }
 
 .monitorTop > div {
   display: flex;
   align-items: center;
+
   gap: 9px;
 }
 
 .monitorTop > span {
-  color: #64748b;
+  color: var(--threat-muted, #64748b);
+
   font-weight: 400;
+
   letter-spacing: 0;
 }
 
-/* Threat rows */
+
+/* ================================
+   THREAT LIST
+================================ */
 
 .threatList {
   padding: 10px 20px;
@@ -129,12 +224,23 @@
 
 .threatItem {
   display: grid;
+
   grid-template-columns: 45px 1fr auto auto;
+
   align-items: center;
+
   gap: 18px;
+
   padding: 20px 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  transition: 0.3s;
+
+  border-bottom: 1px solid var(
+    --threat-divider,
+    rgba(255, 255, 255, 0.05)
+  );
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .threatItem:last-child {
@@ -145,97 +251,164 @@
   background: rgba(0, 229, 255, 0.025);
 }
 
+
+/* ================================
+   THREAT ICON
+================================ */
+
 .threatIcon {
   width: 42px;
   height: 42px;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   border-radius: 10px;
+
   color: #00e5ff;
+
   background: rgba(0, 229, 255, 0.06);
 }
 
+
+/* ================================
+   THREAT INFO
+================================ */
+
 .threatInfo strong {
   font-size: 13px;
+
+  color: var(--threat-title, #ffffff);
 }
 
 .threatInfo p {
   margin-top: 5px;
-  color: #64748b;
+
+  color: var(--threat-muted, #64748b);
+
   font-size: 12px;
 }
 
+
+/* ================================
+   TIME
+================================ */
+
 .threatTime {
   display: flex;
+
   align-items: center;
+
   gap: 5px;
-  color: #64748b;
+
+  color: var(--threat-muted, #64748b);
+
   font-size: 11px;
 }
 
+
+/* ================================
+   THREAT LEVEL
+================================ */
+
 .threatLevel {
   min-width: 62px;
+
   text-align: center;
+
   padding: 6px 8px;
+
   border-radius: 6px;
+
   font-size: 9px;
+
   font-weight: 800;
 }
 
 .threatLevel.high {
   color: #ef4444;
+
   background: rgba(239, 68, 68, 0.1);
 }
 
 .threatLevel.medium {
   color: #f59e0b;
+
   background: rgba(245, 158, 11, 0.1);
 }
 
 .threatLevel.low {
   color: #f59e0b;
+
   background: rgba(245, 158, 11, 0.08);
 }
 
 .threatLevel.safe {
   color: #22c55e;
+
   background: rgba(34, 197, 94, 0.1);
 }
 
-/* Activity */
+
+/* ================================
+   ACTIVITY GRAPH
+================================ */
 
 .activityGraph {
   padding: 25px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  border-top: 1px solid var(
+    --threat-divider,
+    rgba(255, 255, 255, 0.06)
+  );
 }
 
 .graphHeader {
   display: flex;
+
   justify-content: space-between;
-  color: #94a3b8;
+
+  color: var(--hero-text, #94a3b8);
+
   font-size: 12px;
 }
 
 .graphHeader span:last-child {
-  color: #475569;
+  color: var(--threat-muted, #475569);
 }
+
+
+/* ================================
+   BARS
+================================ */
 
 .bars {
   height: 100px;
+
   margin-top: 18px;
+
   display: flex;
+
   align-items: flex-end;
+
   gap: 8px;
 }
 
 .bar {
   flex: 1;
+
   min-width: 5px;
+
   border-radius: 4px 4px 0 0;
+
   background: #00e5ff;
+
   opacity: 0.55;
-  animation: barPulse 2s ease-in-out infinite alternate;
+
+  animation:
+    barPulse 2s ease-in-out infinite alternate;
 }
 
 .bar:nth-child(2n) {
@@ -246,15 +419,48 @@
   animation-delay: 0.6s;
 }
 
+
+/* ================================
+   LIGHT MODE
+================================ */
+
+body.light-mode {
+
+  --page-bg: #f4f8fc;
+
+  --hero-heading: #071522;
+
+  --hero-text: #52677a;
+
+  --threat-panel-bg: rgba(255, 255, 255, 0.92);
+
+  --threat-panel-shadow:
+    rgba(0, 80, 120, 0.08);
+
+  --threat-title: #071522;
+
+  --threat-muted: #667b8d;
+
+  --threat-divider:
+    rgba(7, 21, 34, 0.08);
+}
+
+
+/* ================================
+   ANIMATIONS
+================================ */
+
 @keyframes livePulse {
   0%,
   100% {
     opacity: 1;
+
     transform: scale(1);
   }
 
   50% {
     opacity: 0.45;
+
     transform: scale(1.35);
   }
 }
@@ -269,9 +475,16 @@
   }
 }
 
+
+/* ================================
+   RESPONSIVE
+================================ */
+
 @media (max-width: 850px) {
+
   .threatHeader {
     flex-direction: column;
+
     align-items: flex-start;
   }
 
@@ -286,9 +499,12 @@
   .threatTime {
     display: none;
   }
+
 }
 
+
 @media (max-width: 550px) {
+
   .threatSection {
     padding: 70px 5vw;
   }
@@ -312,4 +528,5 @@
   .threatLevel {
     min-width: 52px;
   }
+
 }

@@ -1,5 +1,9 @@
+/* =========================================
+   SENTINELX HERO
+========================================= */
+
 .hero {
-    min-height: calc(100vh - 85px);
+  min-height: calc(100vh - 85px);
   width: 100%;
 
   padding: 110px 6vw 55px;
@@ -17,12 +21,19 @@
       rgba(0, 229, 255, 0.12),
       transparent 35%
     ),
-    #050816;
+    var(--bg-primary);
+
+  color: var(--text-primary);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
-/* =========================
+
+/* =========================================
    BACKGROUND GLOW
-========================= */
+========================================= */
 
 .heroGlow {
   position: absolute;
@@ -51,9 +62,10 @@
   left: 10%;
 }
 
-/* =========================
+
+/* =========================================
    LEFT CONTENT
-========================= */
+========================================= */
 
 .heroContent {
   width: 48%;
@@ -62,6 +74,11 @@
 
   z-index: 5;
 }
+
+
+/* =========================================
+   HERO BADGE
+========================================= */
 
 .heroBadge {
   display: inline-flex;
@@ -82,7 +99,12 @@
   letter-spacing: 1px;
 
   background: rgba(0, 229, 255, 0.04);
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
+
 
 .badgeDot {
   width: 7px;
@@ -97,6 +119,11 @@
   animation: pulse 2s infinite;
 }
 
+
+/* =========================================
+   HERO TITLE
+========================================= */
+
 .hero h1 {
   margin-top: 22px;
 
@@ -108,8 +135,11 @@
 
   letter-spacing: -2px;
 
-  color: #ffffff;
+  color: var(--hero-heading, #ffffff);
+
+  transition: color 0.3s ease;
 }
+
 
 .hero h1 span {
   display: block;
@@ -120,21 +150,29 @@
     0 0 20px rgba(0, 229, 255, 0.25);
 }
 
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
 .heroDescription {
   max-width: 580px;
 
   margin-top: 20px;
 
-  color: #94a3b8;
+  color: var(--hero-text, #94a3b8);
 
   font-size: 18px;
 
   line-height: 1.8;
+
+  transition: color 0.3s ease;
 }
 
-/* =========================
+
+/* =========================================
    BUTTONS
-========================= */
+========================================= */
 
 .heroButtons {
   display: flex;
@@ -143,6 +181,7 @@
 
   margin-top: 28px;
 }
+
 
 .primaryHeroBtn,
 .secondaryHeroBtn {
@@ -160,8 +199,11 @@
 
   font-weight: 600;
 
-  transition: 0.3s;
+  transition: 0.3s ease;
 }
+
+
+/* PRIMARY */
 
 .primaryHeroBtn {
   border: none;
@@ -174,6 +216,7 @@
     0 0 25px rgba(0, 229, 255, 0.15);
 }
 
+
 .primaryHeroBtn:hover {
   transform: translateY(-3px);
 
@@ -181,13 +224,20 @@
     0 0 35px rgba(0, 229, 255, 0.4);
 }
 
+
+/* SECONDARY */
+
 .secondaryHeroBtn {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(
+    --hero-secondary-bg,
+    rgba(255, 255, 255, 0.02)
+  );
 
   border: 1px solid rgba(0, 229, 255, 0.35);
 
-  color: #ffffff;
+  color: var(--hero-heading, #ffffff);
 }
+
 
 .secondaryHeroBtn:hover {
   border-color: #00e5ff;
@@ -197,9 +247,10 @@
   transform: translateY(-3px);
 }
 
-/* =========================
+
+/* =========================================
    TRUST ITEMS
-========================= */
+========================================= */
 
 .heroTrust {
   display: flex;
@@ -209,6 +260,7 @@
   margin-top: 30px;
 }
 
+
 .heroTrust div {
   display: flex;
 
@@ -216,18 +268,22 @@
 
   gap: 9px;
 
-  color: #94a3b8;
+  color: var(--hero-text, #94a3b8);
 
   font-size: 13px;
+
+  transition: color 0.3s ease;
 }
+
 
 .heroTrust svg {
   color: #00e5ff;
 }
 
-/* =========================
+
+/* =========================================
    RIGHT VISUAL
-========================= */
+========================================= */
 
 .heroVisual {
   width: 48%;
@@ -243,7 +299,10 @@
   justify-content: center;
 }
 
-/* Cyber grid */
+
+/* =========================================
+   CYBER GRID
+========================================= */
 
 .cyberGrid {
   position: absolute;
@@ -275,9 +334,10 @@
   animation: rotateGrid 30s linear infinite;
 }
 
-/* =========================
+
+/* =========================================
    SHIELD
-========================= */
+========================================= */
 
 .shieldContainer {
   position: relative;
@@ -291,6 +351,7 @@
 
   justify-content: center;
 }
+
 
 .shieldOuter {
   width: 250px;
@@ -310,6 +371,7 @@
     drop-shadow(0 0 18px rgba(0, 229, 255, 0.7));
 }
 
+
 .shieldX {
   position: absolute;
 
@@ -326,9 +388,10 @@
     0 0 50px rgba(0, 229, 255, 0.5);
 }
 
-/* =========================
+
+/* =========================================
    SCAN RINGS
-========================= */
+========================================= */
 
 .scanRing {
   position: absolute;
@@ -343,24 +406,28 @@
   transform: translate(-50%, -50%);
 }
 
+
 .ringOne {
   width: 330px;
   height: 100px;
 }
+
 
 .ringTwo {
   width: 430px;
   height: 130px;
 }
 
+
 .ringThree {
   width: 530px;
   height: 160px;
 }
 
-/* =========================
+
+/* =========================================
    SECURITY CARDS
-========================= */
+========================================= */
 
 .securityCard {
   position: absolute;
@@ -377,29 +444,46 @@
 
   border-radius: 12px;
 
-  background: rgba(5, 15, 30, 0.85);
+  background: var(
+    --security-card-bg,
+    rgba(5, 15, 30, 0.85)
+  );
 
   border: 1px solid rgba(0, 229, 255, 0.3);
 
   backdrop-filter: blur(12px);
 
   box-shadow:
-    0 10px 35px rgba(0, 0, 0, 0.3);
+    0 10px 35px var(
+      --security-card-shadow,
+      rgba(0, 0, 0, 0.3)
+    );
 
   animation: floatCard 4s ease-in-out infinite;
+
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    color 0.3s ease;
 }
+
 
 .securityCard svg {
   color: #00e5ff;
 }
 
+
 .securityCard strong {
   display: block;
 
-  color: white;
+  color: var(
+    --security-card-title,
+    #ffffff
+  );
 
   font-size: 13px;
 }
+
 
 .securityCard small {
   display: block;
@@ -411,10 +495,16 @@
   font-size: 11px;
 }
 
+
+/* =========================================
+   CARD POSITIONS
+========================================= */
+
 .malwareCard {
   top: 15%;
   left: 2%;
 }
+
 
 .phishingCard {
   top: 20%;
@@ -423,12 +513,14 @@
   animation-delay: 1s;
 }
 
+
 .passwordCard {
   bottom: 22%;
   left: 0;
 
   animation-delay: 2s;
 }
+
 
 .urlCard {
   bottom: 18%;
@@ -437,11 +529,75 @@
   animation-delay: 3s;
 }
 
-/* =========================
+
+/* =========================================
+   LIGHT MODE
+========================================= */
+
+body.light-mode {
+
+  --hero-heading: #071522;
+
+  --hero-text: #52677a;
+
+  --hero-secondary-bg: rgba(7, 21, 34, 0.03);
+
+  --security-card-bg: rgba(255, 255, 255, 0.9);
+
+  --security-card-shadow: rgba(0, 80, 120, 0.12);
+
+  --security-card-title: #071522;
+}
+
+
+/* =========================================
+   LIGHT MODE HERO OVERRIDES
+========================================= */
+
+body.light-mode .hero {
+  background:
+    radial-gradient(
+      circle at 75% 45%,
+      rgba(0, 180, 220, 0.08),
+      transparent 35%
+    ),
+    var(--bg-primary);
+}
+
+
+body.light-mode .heroBadge {
+  background: rgba(0, 136, 170, 0.05);
+
+  border-color: rgba(0, 136, 170, 0.25);
+}
+
+
+body.light-mode .secondaryHeroBtn {
+  border-color: rgba(0, 136, 170, 0.3);
+}
+
+
+body.light-mode .cyberGrid {
+  opacity: 0.6;
+}
+
+
+body.light-mode .scanRing {
+  border-color: rgba(0, 136, 170, 0.2);
+}
+
+
+body.light-mode .securityCard {
+  border-color: rgba(0, 136, 170, 0.2);
+}
+
+
+/* =========================================
    ANIMATIONS
-========================= */
+========================================= */
 
 @keyframes floatCard {
+
   0%,
   100% {
     transform: translateY(0);
@@ -452,7 +608,9 @@
   }
 }
 
+
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
@@ -465,7 +623,9 @@
   }
 }
 
+
 @keyframes rotateGrid {
+
   from {
     transform: rotate(0deg);
   }
@@ -475,9 +635,10 @@
   }
 }
 
-/* =========================
+
+/* =========================================
    RESPONSIVE
-========================= */
+========================================= */
 
 @media (max-width: 1000px) {
 
@@ -513,6 +674,7 @@
   }
 }
 
+
 @media (max-width: 600px) {
 
   .hero h1 {
@@ -529,6 +691,7 @@
 
   .heroTrust {
     flex-direction: column;
+
     gap: 15px;
   }
 

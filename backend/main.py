@@ -68,6 +68,10 @@ class VerifyOTPRequest(BaseModel):
     email: str
     otp: str
 
+class ResetPasswordRequest(BaseModel):
+    email: str
+    password: str
+
 class RegisterRequest(BaseModel):
     full_name: str
     email: str
@@ -80,7 +84,15 @@ class LoginRequest(BaseModel):
 
 # Temporary OTP storage
 otp_storage = {}
+
+# Registration email verification
 verified_emails = set()
+
+# Password reset OTP storage
+password_reset_otp_storage = {}
+
+# Emails that successfully verified a password reset OTP
+password_reset_verified = set()
 
 
 
@@ -535,6 +547,138 @@ async def login_user(request: LoginRequest):
                 "full_name": user.full_name,
                 "email": user.email
             }
+        }
+
+    finally:
+        db.close()
+
+@app.post("/forgot-password")
+async def forgot_password(request: OTPRequest):
+
+    db = SessionLocal()
+
+    try:
+        # Check whether the account exists
+        user = (
+            db.query(User)
+            .filter(User.email == request.email)
+            .first()
+        )
+
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="No account found with this email address."
+            )
+
+        # Generate OTP
+        otp = str(random.randint(100000, 999999))
+
+        # Store OTP separately from registration OTP
+        password_reset_otp_storage[request.email] = otp
+
+        # Send OTP
+        response = resend.Emails.send({
+            "from": "SentinelX <onboarding@resend.dev>",
+            "to": [request.email],
+            "subject": "SentinelX Password Reset Code",
+            "html": f"""
+                <h2>SentinelX Password Reset</h2>
+
+                <p>Your password reset verification code is:</p>
+
+                <h1>{otp}</h1>
+
+                <p>Enter this code in SentinelX to continue resetting your password.</p>
+
+                <p>If you did not request a password reset, you can safely ignore this email.</p>
+            """
+        })
+
+        return {
+            "success": True,
+            "message": "Password reset OTP sent successfully.",
+            "email_id": response.get("id")
+        }
+
+    finally:
+        db.close()
+
+@app.post("/verify-reset-otp")
+async def verify_reset_otp(request: VerifyOTPRequest):
+
+    stored_otp = password_reset_otp_storage.get(request.email)
+
+    if not stored_otp:
+        raise HTTPException(
+            status_code=400,
+            detail="No password reset OTP found. Please request a new OTP."
+        )
+
+    if request.otp != stored_otp:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid password reset OTP."
+        )
+
+    # Remove OTP after successful verification
+    del password_reset_otp_storage[request.email]
+
+    # Mark email as verified for password reset
+    password_reset_verified.add(request.email)
+
+    return {
+        "success": True,
+        "verified": True,
+        "message": "Password reset email verified successfully."
+    }
+
+@app.post("/reset-password")
+async def reset_password(request: ResetPasswordRequest):
+
+    if request.email not in password_reset_verified:
+        raise HTTPException(
+            status_code=403,
+            detail="Please verify your password reset OTP first."
+        )
+
+    if len(request.password) < 8:
+        raise HTTPException(
+            status_code=400,
+            detail="Password must be at least 8 characters long."
+        )
+
+    db = SessionLocal()
+
+    try:
+        user = (
+            db.query(User)
+            .filter(User.email == request.email)
+            .first()
+        )
+
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="User account not found."
+            )
+
+        # Hash the new password
+        new_password_hash = bcrypt.hashpw(
+            request.password.encode("utf-8"),
+            bcrypt.gensalt()
+        ).decode("utf-8")
+
+        user.password_hash = new_password_hash
+
+        db.commit()
+
+        # Password reset is complete
+        password_reset_verified.remove(request.email)
+
+        return {
+            "success": True,
+            "message": "Password reset successfully. You can now login."
         }
 
     finally:

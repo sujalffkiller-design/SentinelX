@@ -120,9 +120,9 @@ function Navbar() {
                 </button>
 
                 <button
-                  onClick={() => navigate("/change-password")}
+                  onClick={() => navigate("/forgot-password")}
                 >
-                  🔐 Change Password
+                  🔐 Reset Password
                 </button>
 
                 <button

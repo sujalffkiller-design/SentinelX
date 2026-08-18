@@ -1,0 +1,132 @@
+.profile-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #020b16;
+  padding: 30px;
+}
+
+
+.profile-card {
+  width: 100%;
+  max-width: 450px;
+  background: #071522;
+  border: 1px solid #123047;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 0 35px rgba(0, 174, 255, 0.12);
+}
+
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+
+.profile-logo {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+
+.profile-header h1 {
+  color: white;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+
+.profile-header p {
+  color: #8da6ba;
+  line-height: 1.6;
+}
+
+
+.profile-form-group {
+  margin-bottom: 25px;
+}
+
+
+.profile-form-group label {
+  display: block;
+  color: white;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+
+.profile-form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 15px;
+  background: #0b1d2d;
+  border: 1px solid #1d3b52;
+  border-radius: 10px;
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+
+.profile-form-group input:focus {
+  border-color: #00aaff;
+  box-shadow: 0 0 10px rgba(0, 170, 255, 0.2);
+}
+
+
+.profile-form-group input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+.profile-form-group small {
+  display: block;
+  margin-top: 8px;
+  color: #6f8da2;
+  font-size: 12px;
+}
+
+
+.profile-save-button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #0878f9;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+
+.profile-save-button:hover {
+  background: #0069df;
+}
+
+
+.profile-message {
+  text-align: center;
+  color: #00aaff;
+  margin-top: 20px;
+}
+
+
+.profile-back {
+  text-align: center;
+  margin-top: 25px;
+}
+
+
+.profile-back a {
+  color: #00aaff;
+  text-decoration: none;
+}
+
+
+.profile-back a:hover {
+  text-decoration: underline;
+}
