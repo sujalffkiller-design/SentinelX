@@ -1,4 +1,5 @@
 import "./FeatureCards.css";
+
 import {
   ShieldCheck,
   Fish,
@@ -7,7 +8,9 @@ import {
   BarChart3,
   Bot,
 } from "lucide-react";
+
 import { useNavigate } from "react-router-dom";
+
 
 const tools = [
   {
@@ -17,6 +20,7 @@ const tools = [
     action: "Scan Now",
     path: "/malware",
   },
+
   {
     icon: Fish,
     title: "Phishing Detector",
@@ -24,6 +28,7 @@ const tools = [
     action: "Check Now",
     path: "/phishing",
   },
+
   {
     icon: LockKeyhole,
     title: "Password Security",
@@ -31,58 +36,106 @@ const tools = [
     action: "Audit Password",
     path: "/password",
   },
+
   {
     icon: Globe,
     title: "URL Scanner",
     desc: "Scan URLs for malware, phishing, and security risks.",
     action: "Analyze URL",
+    path: "/url-scanner",
   },
+
   {
     icon: BarChart3,
     title: "Security Dashboard",
     desc: "Monitor scans, reports, and your security activity.",
     action: "View Dashboard",
+    path: "/dashboard",
   },
+
   {
     icon: Bot,
     title: "AI Cyber Assistant",
     desc: "Ask cybersecurity questions and get AI-powered answers.",
     action: "Chat with AI",
+    path: "/ai-assistant",
   },
 ];
 
+
 function FeatureCards() {
+
   const navigate = useNavigate();
+
 
   return (
     <section className="featuresSection">
+
+      {/* =========================
+          SECTION HEADING
+      ========================= */}
+
       <h2>
         Powerful Tools for <span>Complete Protection</span>
       </h2>
 
+
+      {/* =========================
+          TOOL GRID
+      ========================= */}
+
       <div className="featureGrid">
-        {tools.map((tool, index) => (
-          <div className="featureCard" key={index}>
-            <tool.icon size={34} className="featureIcon" />
 
-            <h3>{tool.title}</h3>
+        {tools.map((tool, index) => {
 
-            <p>{tool.desc}</p>
+          const Icon = tool.icon;
 
-            <button
-              onClick={() => {
-                if (tool.path) {
-                  navigate(tool.path);
-                }
-              }}
+          return (
+            <div
+              className="featureCard"
+              key={index}
             >
-              {tool.action} →
-            </button>
-          </div>
-        ))}
+
+              {/* ICON */}
+
+              <Icon
+                size={34}
+                className="featureIcon"
+              />
+
+
+              {/* TITLE */}
+
+              <h3>
+                {tool.title}
+              </h3>
+
+
+              {/* DESCRIPTION */}
+
+              <p>
+                {tool.desc}
+              </p>
+
+
+              {/* ACTION BUTTON */}
+
+              <button
+                onClick={() => navigate(tool.path)}
+              >
+                {tool.action} →
+              </button>
+
+            </div>
+          );
+
+        })}
+
       </div>
+
     </section>
   );
 }
+
 
 export default FeatureCards;

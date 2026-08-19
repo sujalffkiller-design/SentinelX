@@ -1,0 +1,1027 @@
+/* =========================================================
+   SENTINELX URL SCANNER
+========================================================= */
+
+.urlScannerPage {
+  min-height: calc(100vh - 76px);
+  padding: 70px 6vw 100px;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(0, 229, 255, 0.07),
+      transparent 35%
+    ),
+    var(--bg-primary);
+
+  color: var(--text-primary);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.urlScannerContainer {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.urlScannerHeader {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 45px;
+}
+
+.urlScannerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 14px;
+
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: 999px;
+
+  background: rgba(0, 229, 255, 0.05);
+
+  color: #00e5ff;
+
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.urlScannerHeader h1 {
+  margin-top: 18px;
+
+  font-family: "Poppins", sans-serif;
+
+  font-size: clamp(42px, 5vw, 64px);
+
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+
+  color: var(--text-primary);
+}
+
+.urlScannerHeader h1 span {
+  color: #00e5ff;
+
+  text-shadow:
+    0 0 20px rgba(0, 229, 255, 0.25);
+}
+
+.urlScannerHeader p {
+  margin-top: 18px;
+
+  color: var(--text-secondary);
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   SCANNER CARD
+========================================================= */
+
+.scannerCard {
+  padding: 28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(9, 27, 45, 0.96),
+      rgba(4, 16, 29, 0.96)
+    );
+
+  border: 1px solid rgba(0, 229, 255, 0.15);
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25);
+
+  margin-bottom: 25px;
+}
+
+.scannerCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  margin-bottom: 22px;
+}
+
+.scannerTitleIcon {
+  width: 46px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: rgba(0, 229, 255, 0.08);
+
+  border: 1px solid rgba(0, 229, 255, 0.18);
+
+  color: #00e5ff;
+}
+
+.scannerCardHeader h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.scannerCardHeader p {
+  margin-top: 4px;
+
+  color: var(--text-secondary);
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   URL INPUT
+========================================================= */
+
+.urlInputWrapper {
+  display: flex;
+  align-items: center;
+
+  min-height: 58px;
+
+  padding: 5px;
+
+  border: 1px solid rgba(0, 229, 255, 0.18);
+
+  border-radius: 12px;
+
+  background: rgba(2, 10, 20, 0.7);
+
+  transition: 0.25s ease;
+}
+
+.urlInputWrapper:focus-within {
+  border-color: rgba(0, 229, 255, 0.6);
+
+  box-shadow:
+    0 0 0 3px rgba(0, 229, 255, 0.06),
+    0 0 25px rgba(0, 229, 255, 0.08);
+}
+
+.urlInputIcon {
+  width: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #00e5ff;
+}
+
+.urlInputWrapper input {
+  flex: 1;
+
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-size: 15px;
+
+  font-family: "Inter", sans-serif;
+}
+
+.urlInputWrapper input::placeholder {
+  color: #64748b;
+}
+
+
+/* =========================================================
+   SCAN BUTTON
+========================================================= */
+
+.scanButton {
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding: 0 24px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: #00e5ff;
+
+  color: #02121a;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  transition: 0.25s ease;
+}
+
+.scanButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 0 25px rgba(0, 229, 255, 0.3);
+}
+
+.scanButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loadingSpinner {
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid rgba(2, 18, 26, 0.25);
+  border-top-color: #02121a;
+
+  border-radius: 50%;
+
+  animation: scannerSpin 0.7s linear infinite;
+}
+
+@keyframes scannerSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.urlError {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 15px;
+
+  padding: 13px 15px;
+
+  border-radius: 10px;
+
+  background: rgba(239, 68, 68, 0.08);
+
+  border: 1px solid rgba(239, 68, 68, 0.2);
+
+  color: #f87171;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.scanResult {
+  padding: 30px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(7, 22, 37, 0.98),
+      rgba(3, 14, 26, 0.98)
+    );
+
+  border: 1px solid rgba(0, 229, 255, 0.14);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.3);
+
+  animation: resultAppear 0.35s ease;
+}
+
+@keyframes resultAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   RESULT TOP
+========================================================= */
+
+.resultTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.resultEyebrow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #22c55e;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+.resultTop h2 {
+  margin-top: 8px;
+
+  font-family: "Poppins", sans-serif;
+
+  font-size: 28px;
+}
+
+.resultTop p {
+  margin-top: 5px;
+
+  color: var(--text-secondary);
+
+  font-size: 13px;
+}
+
+.newScanButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 11px 16px;
+
+  background: transparent;
+
+  border: 1px solid rgba(0, 229, 255, 0.2);
+
+  border-radius: 9px;
+
+  color: #00e5ff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  transition: 0.25s ease;
+}
+
+.newScanButton:hover {
+  background: rgba(0, 229, 255, 0.06);
+
+  border-color: #00e5ff;
+}
+
+
+/* =========================================================
+   OVERVIEW
+========================================================= */
+
+.resultOverview {
+  display: grid;
+
+  grid-template-columns: 1.15fr 1fr 1fr;
+
+  gap: 15px;
+
+  margin-top: 25px;
+}
+
+
+/* =========================================================
+   RISK CARD
+========================================================= */
+
+.riskCard,
+.infoCard {
+  min-height: 220px;
+
+  padding: 22px;
+
+  border-radius: 15px;
+
+  background: rgba(2, 12, 23, 0.7);
+
+  border: 1px solid rgba(0, 229, 255, 0.1);
+}
+
+.riskCard {
+  position: relative;
+  overflow: hidden;
+}
+
+.riskCard::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -60px;
+  bottom: -70px;
+
+  border-radius: 50%;
+
+  background: rgba(34, 197, 94, 0.08);
+
+  filter: blur(30px);
+}
+
+.riskCard.medium::after {
+  background: rgba(234, 179, 8, 0.1);
+}
+
+.riskCard.high::after {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.riskCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.riskCardHeader > span {
+  color: #64748b;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+.riskIcon {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: rgba(34, 197, 94, 0.08);
+
+  color: #22c55e;
+}
+
+.riskCard.medium .riskIcon {
+  background: rgba(234, 179, 8, 0.08);
+  color: #eab308;
+}
+
+.riskCard.high .riskIcon {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+}
+
+.riskScore {
+  margin-top: 25px;
+
+  font-family: "Poppins", sans-serif;
+
+  font-size: 48px;
+
+  line-height: 1;
+
+  font-weight: 800;
+
+  color: #22c55e;
+}
+
+.riskCard.medium .riskScore {
+  color: #eab308;
+}
+
+.riskCard.high .riskScore {
+  color: #ef4444;
+}
+
+.riskScore small {
+  margin-left: 4px;
+
+  font-size: 13px;
+
+  color: #64748b;
+
+  font-family: "Inter", sans-serif;
+}
+
+.riskLevel {
+  margin-top: 9px;
+
+  color: #22c55e;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  letter-spacing: 0.8px;
+}
+
+.riskCard.medium .riskLevel {
+  color: #eab308;
+}
+
+.riskCard.high .riskLevel {
+  color: #ef4444;
+}
+
+.riskCard p {
+  margin-top: 8px;
+
+  color: #71849a;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+.riskProgress {
+  height: 5px;
+
+  margin-top: 18px;
+
+  border-radius: 10px;
+
+  background: rgba(148, 163, 184, 0.1);
+
+  overflow: hidden;
+}
+
+.riskProgress div {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #22c55e;
+
+  transition: width 0.5s ease;
+}
+
+.riskCard.medium .riskProgress div {
+  background: #eab308;
+}
+
+.riskCard.high .riskProgress div {
+  background: #ef4444;
+}
+
+
+/* =========================================================
+   INFO CARDS
+========================================================= */
+
+.infoCardTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #00e5ff;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.3px;
+}
+
+.scannedUrl {
+  margin-top: 25px;
+
+  padding: 13px;
+
+  border-radius: 9px;
+
+  background: rgba(0, 229, 255, 0.04);
+
+  border: 1px solid rgba(0, 229, 255, 0.08);
+
+  color: #d9faff;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+.externalLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-top: 15px;
+
+  color: #00e5ff;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.externalLink:hover {
+  text-decoration: underline;
+}
+
+.findingCount {
+  margin-top: 25px;
+
+  font-family: "Poppins", sans-serif;
+
+  font-size: 48px;
+  font-weight: 800;
+
+  color: #00e5ff;
+}
+
+.infoCard > p {
+  margin-top: 8px;
+
+  color: #71849a;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   ANALYSIS SECTION
+========================================================= */
+
+.analysisSection {
+  margin-top: 30px;
+
+  padding-top: 25px;
+
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.sectionHeading h3 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  font-size: 17px;
+}
+
+.sectionHeading h3 svg {
+  color: #00e5ff;
+}
+
+.sectionHeading p {
+  margin-top: 5px;
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   FINDINGS
+========================================================= */
+
+.findingsList {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+.findingItem {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 13px 15px;
+
+  border: 1px solid rgba(148, 163, 184, 0.08);
+
+  border-radius: 10px;
+
+  background: rgba(2, 12, 23, 0.45);
+
+  color: #a9b8c8;
+
+  font-size: 13px;
+}
+
+.findingNumber {
+  color: #475569;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  min-width: 24px;
+}
+
+.findingIcon {
+  width: 31px;
+  height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 8px;
+
+  background: rgba(34, 197, 94, 0.07);
+
+  color: #22c55e;
+}
+
+.findingItem span:last-child {
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   SECURITY CHECKS
+========================================================= */
+
+.checksGrid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+.checkCard {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  min-height: 52px;
+
+  padding: 12px;
+
+  border: 1px solid rgba(148, 163, 184, 0.08);
+
+  border-radius: 10px;
+
+  background: rgba(2, 12, 23, 0.45);
+
+  color: #8fa2b5;
+
+  font-size: 12px;
+}
+
+.checkCard > svg:first-child {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.checkCard span {
+  flex: 1;
+}
+
+.checkCard > svg:last-child {
+  color: #22c55e;
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.scanFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-top: 30px;
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+
+  color: #526579;
+
+  font-size: 11px;
+}
+
+.scanFooter div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.scanFooter svg {
+  color: #00e5ff;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.scannerEmpty {
+  padding: 55px 25px;
+
+  text-align: center;
+
+  border: 1px dashed rgba(0, 229, 255, 0.12);
+
+  border-radius: 16px;
+
+  background: rgba(5, 20, 34, 0.3);
+}
+
+.emptyIcon {
+  width: 64px;
+  height: 64px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  background: rgba(0, 229, 255, 0.06);
+
+  border: 1px solid rgba(0, 229, 255, 0.12);
+
+  color: #00e5ff;
+}
+
+.scannerEmpty h3 {
+  font-size: 18px;
+}
+
+.scannerEmpty p {
+  max-width: 450px;
+
+  margin: 8px auto 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   LIGHT MODE
+========================================================= */
+
+body.light-mode .scannerCard,
+body.light-mode .scanResult {
+  background: #ffffff;
+
+  border-color: rgba(7, 21, 34, 0.1);
+
+  box-shadow:
+    0 20px 60px rgba(7, 21, 34, 0.08);
+}
+
+body.light-mode .urlInputWrapper {
+  background: #f8fafc;
+
+  border-color: rgba(7, 21, 34, 0.12);
+}
+
+body.light-mode .urlInputWrapper input {
+  color: #071522;
+}
+
+body.light-mode .riskCard,
+body.light-mode .infoCard,
+body.light-mode .findingItem,
+body.light-mode .checkCard {
+  background: #f8fafc;
+
+  border-color: rgba(7, 21, 34, 0.08);
+}
+
+body.light-mode .scannedUrl {
+  color: #071522;
+
+  background: rgba(0, 119, 204, 0.04);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .resultOverview {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .riskCard {
+    grid-column: span 2;
+  }
+
+  .checksGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .urlScannerPage {
+    padding: 45px 18px 70px;
+  }
+
+  .scannerCard,
+  .scanResult {
+    padding: 20px;
+  }
+
+  .urlInputWrapper {
+    flex-wrap: wrap;
+
+    padding: 8px;
+  }
+
+  .urlInputIcon {
+    width: 38px;
+  }
+
+  .urlInputWrapper input {
+    height: 42px;
+  }
+
+  .scanButton {
+    width: 100%;
+  }
+
+  .resultTop {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .resultOverview {
+    grid-template-columns: 1fr;
+  }
+
+  .riskCard {
+    grid-column: span 1;
+  }
+
+  .checksGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .scanFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

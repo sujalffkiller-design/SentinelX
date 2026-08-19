@@ -10,6 +10,7 @@ import SecurityFlow from "./components/SecurityFlow/SecurityFlow";
 import PhishingDetector from "./components/PhishingDetector/PhishingDetector";
 import MalwareScanner from "./components/MalwareScanner/MalwareScanner";
 import PasswordAuditor from "./components/PasswordAuditor/PasswordAuditor";
+import URLScanner from "./components/URLScanner/URLScanner";
 
 import Dashboard from "./components/Dashboard/Dashboard";
 import RegisterPage from "./pages/RegisterPage";
@@ -18,6 +19,8 @@ import ScanHistory from "./components/ScanHistory/ScanHistory";
 
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
+
+import AIAssistant from "./pages/AIAssistant";
 
 import ProfilePage from "./pages/ProfilePage";
 import AccountSettings from "./pages/AccountSettings";
@@ -137,6 +140,19 @@ function App() {
           }
         />
 
+        {/* =========================
+              SENTINELX AI
+          ========================= */}
+
+         <Route
+            path="/ai-assistant"
+            element={
+              <ProtectedRoute>
+                <AIAssistant />
+              </ProtectedRoute>
+            }
+          />
+
 
         {/* =========================
             DASHBOARD
@@ -207,6 +223,11 @@ function App() {
         <Route
           path="/phishing"
           element={<PhishingDetector />}
+        />
+
+        <Route
+          path="/url-scanner"
+          element={<URLScanner />}
         />
 
         <Route
