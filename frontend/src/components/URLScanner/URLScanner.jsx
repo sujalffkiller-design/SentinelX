@@ -21,7 +21,7 @@ import "./URLScanner.css";
 const API_URL = "http://127.0.0.1:8000";
 
 function URLScanner() {
-  const [url, setUrl] = useState("https://www.google.com");
+  const [url, setUrl] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

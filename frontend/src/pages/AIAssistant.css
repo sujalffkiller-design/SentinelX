@@ -364,3 +364,72 @@
     width: calc(100% - 25px);
   }
 }
+
+/* =========================
+   CHAT MESSAGES
+========================= */
+
+.sx-ai-messages {
+  width: min(820px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.sx-ai-message {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  line-height: 1.6;
+}
+
+.sx-ai-message-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sx-ai-message-text {
+  max-width: 720px;
+  padding: 11px 15px;
+  border-radius: 12px;
+  white-space: pre-wrap;
+  font-size: 14px;
+}
+
+.sx-ai-user-message {
+  justify-content: flex-end;
+}
+
+.sx-ai-user-message .sx-ai-message-icon {
+  order: 2;
+}
+
+.sx-ai-user-message .sx-ai-message-text {
+  background: rgba(0, 255, 170, 0.08);
+}
+
+.sx-ai-assistant-message .sx-ai-message-text {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+
+/* SEND BUTTON DISABLED */
+
+.sx-ai-input button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+
+/* INPUT BUTTON */
+
+.sx-ai-input button:not(:disabled):hover {
+  transform: scale(1.03);
+}

@@ -1,8 +1,11 @@
 import "./Dashboard.css";
 import ScanHistory from "../ScanHistory/ScanHistory";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+
+const navigate = useNavigate();
 
 const [history] = useState(() => {
   const savedHistory = localStorage.getItem("sentinelx_scan_history");
@@ -176,41 +179,61 @@ const [history] = useState(() => {
           ))
         )}
 
-        <div className="quick-card">
-          <p className="dashboard-label">QUICK ACTIONS</p>
-          <h2>Run Security Scan</h2>
+              <div className="quick-card">
 
-         <button
-        onClick={() =>
-            document
-            .getElementById("phishing-detector")
-            ?.scrollIntoView({ behavior: "smooth" })
-        }
-        >
-        🔗 Phishing Detector
-        </button>
+        <p className="dashboard-label">QUICK ACTIONS</p>
 
+        <h2>Run Security Scan</h2>
+
+
+        {/* PHISHING DETECTOR */}
         <button
-        onClick={() =>
-            document
-            .getElementById("malware-scanner")
-            ?.scrollIntoView({ behavior: "smooth" })
-        }
+          onClick={() => navigate("/phishing")}
         >
-        📁 Malware Scanner
+          🔗 Phishing Detector
         </button>
 
+
+        {/* MALWARE SCANNER */}
         <button
-        onClick={() =>
-            document
-            .getElementById("password-auditor")
-            ?.scrollIntoView({ behavior: "smooth" })
-        }
+          onClick={() => navigate("/malware")}
         >
-        🔑 Password Auditor
+          🦠 Malware Scanner
         </button>
 
-        </div>
+
+        {/* PASSWORD AUDITOR */}
+        <button
+          onClick={() => navigate("/password")}
+        >
+          🔑 Password Auditor
+        </button>
+
+
+        {/* URL SCANNER */}
+        <button
+          onClick={() => navigate("/url-scanner")}
+        >
+          🔍 URL Scanner
+        </button>
+
+
+        {/* SENTINELX AI */}
+        <button
+          onClick={() => navigate("/ai-assistant")}
+        >
+          🤖 SentinelX AI
+        </button>
+
+
+        {/* SCAN HISTORY */}
+        <button
+          onClick={() => navigate("/scan-history")}
+        >
+          📜 Scan History
+        </button>
+
+      </div>
 
       </div>
 

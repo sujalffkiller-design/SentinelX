@@ -8,14 +8,20 @@ import os
 import random
 from dotenv import load_dotenv
 import resend
+import requests
 
 from database import engine, Base, SessionLocal
-from models import User
+from models import User, AIChat, AIMessage
 
 import bcrypt
 
 from jose import jwt
 from datetime import datetime, timedelta, timezone
+
+
+# ============================================================
+# ENVIRONMENT
+# ============================================================
 
 load_dotenv()
 
@@ -26,12 +32,27 @@ if not RESEND_API_KEY:
 
 resend.api_key = RESEND_API_KEY
 
+
+# ============================================================
+# DATABASE
+# ============================================================
+
 Base.metadata.create_all(bind=engine)
+
+
+# ============================================================
+# FASTAPI APP
+# ============================================================
 
 app = FastAPI(
     title="SentinelX Security API",
     version="2.0.0"
 )
+
+
+# ============================================================
+# JWT CONFIGURATION
+# ============================================================
 
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 
@@ -41,36 +62,44 @@ if not JWT_SECRET_KEY:
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRE_MINUTES = 60
 
-# -----------------------------
+
+# ============================================================
 # CORS
-# -----------------------------
+# ============================================================
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-# -----------------------------
-# Request Model
-# -----------------------------
+# ============================================================
+# REQUEST MODELS
+# ============================================================
 
 class URLRequest(BaseModel):
     url: str
 
+
 class OTPRequest(BaseModel):
     email: str
+
 
 class VerifyOTPRequest(BaseModel):
     email: str
     otp: str
 
+
 class ResetPasswordRequest(BaseModel):
     email: str
     password: str
+
 
 class RegisterRequest(BaseModel):
     full_name: str
@@ -78,27 +107,37 @@ class RegisterRequest(BaseModel):
     phone: str
     password: str
 
+
 class LoginRequest(BaseModel):
     email: str
     password: str
 
-# Temporary OTP storage
+
+class AIChatRequest(BaseModel):
+    message: str
+    history: list = []
+
+
+# ============================================================
+# TEMPORARY STORAGE
+# ============================================================
+
+# Registration OTP storage
 otp_storage = {}
 
-# Registration email verification
+# Emails that successfully verified registration OTP
 verified_emails = set()
 
 # Password reset OTP storage
 password_reset_otp_storage = {}
 
-# Emails that successfully verified a password reset OTP
+# Emails that successfully verified password reset OTP
 password_reset_verified = set()
 
 
-
-# -----------------------------
-# Suspicious Keywords
-# -----------------------------
+# ============================================================
+# SUSPICIOUS KEYWORDS
+# ============================================================
 
 SUSPICIOUS_KEYWORDS = [
     "login",
@@ -119,50 +158,55 @@ SUSPICIOUS_KEYWORDS = [
 ]
 
 
-# -----------------------------
-# URL Analyzer
-# -----------------------------
+# ============================================================
+# URL ANALYZER
+# ============================================================
 
 def analyze_url(url: str):
 
     findings = []
     score = 0
 
-    # -------------------------
+    # --------------------------------------------------------
     # Basic URL validation
-    # -------------------------
+    # --------------------------------------------------------
 
     if not url.startswith(("http://", "https://")):
         url = "http://" + url
 
     try:
         parsed = urlparse(url)
+
     except Exception:
         return {
             "risk_score": 100,
             "risk_level": "HIGH RISK",
-            "findings": ["Invalid URL format."]
+            "findings": [
+                "Invalid URL format."
+            ]
         }
 
     hostname = parsed.hostname or ""
     path = parsed.path or ""
 
-    # -------------------------
-    # 1. HTTPS check
-    # -------------------------
+    # --------------------------------------------------------
+    # 1. HTTPS CHECK
+    # --------------------------------------------------------
 
     if parsed.scheme != "https":
+
         score += 15
 
         findings.append(
             "URL does not use HTTPS."
         )
 
-    # -------------------------
-    # 2. IP address check
-    # -------------------------
+    # --------------------------------------------------------
+    # 2. IP ADDRESS CHECK
+    # --------------------------------------------------------
 
     try:
+
         ipaddress.ip_address(hostname)
 
         score += 25
@@ -172,13 +216,15 @@ def analyze_url(url: str):
         )
 
     except ValueError:
+
         pass
 
-    # -------------------------
-    # 3. URL length
-    # -------------------------
+    # --------------------------------------------------------
+    # 3. URL LENGTH
+    # --------------------------------------------------------
 
     if len(url) > 100:
+
         score += 10
 
         findings.append(
@@ -186,25 +232,29 @@ def analyze_url(url: str):
         )
 
     if len(url) > 200:
+
         score += 10
 
         findings.append(
             "URL is extremely long and may contain obfuscation."
         )
 
-    # -------------------------
-    # 4. Suspicious keywords
-    # -------------------------
+    # --------------------------------------------------------
+    # 4. SUSPICIOUS KEYWORDS
+    # --------------------------------------------------------
 
     lower_url = url.lower()
 
     matched_keywords = []
 
     for keyword in SUSPICIOUS_KEYWORDS:
+
         if keyword in lower_url:
+
             matched_keywords.append(keyword)
 
     if len(matched_keywords) >= 2:
+
         score += 20
 
         findings.append(
@@ -212,110 +262,136 @@ def analyze_url(url: str):
         )
 
     elif len(matched_keywords) == 1:
+
         score += 8
 
         findings.append(
             f"URL contains suspicious keyword: {matched_keywords[0]}."
         )
 
-    # -------------------------
-    # 5. @ symbol
-    # -------------------------
+    # --------------------------------------------------------
+    # 5. @ SYMBOL
+    # --------------------------------------------------------
 
     if "@" in url:
+
         score += 20
 
         findings.append(
             "URL contains an @ symbol, which can be used to obscure the destination."
         )
 
-    # -------------------------
-    # 6. Too many subdomains
-    # -------------------------
+    # --------------------------------------------------------
+    # 6. TOO MANY SUBDOMAINS
+    # --------------------------------------------------------
 
     subdomain_parts = hostname.split(".")
 
     if len(subdomain_parts) >= 4:
+
         score += 15
 
         findings.append(
             "URL contains an unusually large number of subdomains."
         )
 
-    # -------------------------
-    # 7. Punycode
-    # -------------------------
+    # --------------------------------------------------------
+    # 7. PUNYCODE
+    # --------------------------------------------------------
 
     if "xn--" in hostname.lower():
+
         score += 25
 
         findings.append(
             "Domain contains Punycode, which can be used in look-alike domains."
         )
 
-    # -------------------------
-    # 8. Suspicious separators
-    # -------------------------
+    # --------------------------------------------------------
+    # 8. SUSPICIOUS SEPARATORS
+    # --------------------------------------------------------
 
     separator_count = url.count("-")
 
     if separator_count >= 4:
+
         score += 10
 
         findings.append(
             "Domain contains many hyphens."
         )
 
-    # -------------------------
-    # 9. Suspicious port
-    # -------------------------
+    # --------------------------------------------------------
+    # 9. SUSPICIOUS PORT
+    # --------------------------------------------------------
 
-    if parsed.port is not None:
+    try:
 
-        if parsed.port not in [80, 443]:
+        port = parsed.port
+
+        if port is not None and port not in [80, 443]:
+
             score += 15
 
             findings.append(
-                f"URL uses an unusual port: {parsed.port}."
+                f"URL uses an unusual port: {port}."
             )
 
-    # -------------------------
-    # 10. Encoded URL characters
-    # -------------------------
+    except ValueError:
 
-    encoded_count = len(re.findall(r"%[0-9a-fA-F]{2}", url))
+        score += 15
+
+        findings.append(
+            "URL contains an invalid port."
+        )
+
+    # --------------------------------------------------------
+    # 10. ENCODED URL CHARACTERS
+    # --------------------------------------------------------
+
+    encoded_count = len(
+        re.findall(
+            r"%[0-9a-fA-F]{2}",
+            url
+        )
+    )
 
     if encoded_count >= 3:
+
         score += 10
 
         findings.append(
             "URL contains multiple encoded characters."
         )
 
-    # -------------------------
-    # Keep score between 0-100
-    # -------------------------
+    # --------------------------------------------------------
+    # KEEP SCORE BETWEEN 0-100
+    # --------------------------------------------------------
 
     score = min(score, 100)
 
-    # -------------------------
-    # Risk classification
-    # -------------------------
+    # --------------------------------------------------------
+    # RISK CLASSIFICATION
+    # --------------------------------------------------------
 
     if score >= 70:
+
         risk_level = "HIGH RISK"
 
     elif score >= 30:
+
         risk_level = "SUSPICIOUS"
 
     else:
+
         risk_level = "LOW RISK"
 
-    # -------------------------
-    # Safe result
-    # -------------------------
+    # --------------------------------------------------------
+    # SAFE RESULT
+    # --------------------------------------------------------
 
     if not findings:
+
         findings.append(
             "No obvious phishing indicators were detected."
         )
@@ -339,9 +415,9 @@ def analyze_url(url: str):
     }
 
 
-# -----------------------------
-# Routes
-# -----------------------------
+# ============================================================
+# ROOT
+# ============================================================
 
 @app.get("/")
 def root():
@@ -352,13 +428,23 @@ def root():
     }
 
 
+# ============================================================
+# PHISHING / URL ANALYZER
+# ============================================================
+
 @app.post("/analyze-url")
 def analyze_url_endpoint(request: URLRequest):
 
     return analyze_url(request.url)
 
+
+# ============================================================
+# MALWARE SCANNER
+# ============================================================
+
 @app.post("/scan")
 async def scan_file(file: UploadFile = File(...)):
+
     return {
         "filename": file.filename,
         "status": "Safe",
@@ -367,42 +453,10 @@ async def scan_file(file: UploadFile = File(...)):
         "message": "No threats detected."
     }
 
-@app.post("/send-otp")
-async def send_otp(request: OTPRequest):
 
-    otp = str(random.randint(100000, 999999))
-
-    otp_storage[request.email] = otp
-
-    try:
-        response = resend.Emails.send({
-            "from": "SentinelX <onboarding@resend.dev>",
-            "to": [request.email],
-            "subject": "Your SentinelX Verification Code",
-            "html": f"""
-                <h2>SentinelX Email Verification</h2>
-
-                <p>Your verification code is:</p>
-
-                <h1>{otp}</h1>
-
-                <p>This OTP is valid for a short period.</p>
-
-                <p>If you did not request this code, you can safely ignore this email.</p>
-            """
-        })
-
-        return {
-            "success": True,
-            "message": "OTP sent successfully",
-            "email_id": response.get("id")
-        }
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to send OTP: {str(e)}"
-        )
+# ============================================================
+# VERIFY REGISTRATION OTP
+# ============================================================
 
 @app.post("/verify-otp")
 async def verify_otp(request: VerifyOTPRequest):
@@ -410,12 +464,14 @@ async def verify_otp(request: VerifyOTPRequest):
     stored_otp = otp_storage.get(request.email)
 
     if not stored_otp:
+
         raise HTTPException(
             status_code=400,
             detail="No OTP found. Please request a new OTP."
         )
 
     if request.otp != stored_otp:
+
         raise HTTPException(
             status_code=400,
             detail="Invalid OTP."
@@ -423,6 +479,7 @@ async def verify_otp(request: VerifyOTPRequest):
 
     # Remove OTP after successful verification
     del otp_storage[request.email]
+
     verified_emails.add(request.email)
 
     return {
@@ -431,12 +488,18 @@ async def verify_otp(request: VerifyOTPRequest):
         "message": "Email verified successfully."
     }
 
+
+# ============================================================
+# REGISTER
+# ============================================================
+
 @app.post("/register")
 async def register_user(request: RegisterRequest):
 
     db = SessionLocal()
 
     try:
+
         # Check whether email already exists
         existing_user = (
             db.query(User)
@@ -445,13 +508,15 @@ async def register_user(request: RegisterRequest):
         )
 
         if existing_user:
+
             raise HTTPException(
                 status_code=400,
                 detail="An account with this email already exists."
             )
 
-        # Make sure the email was verified
+        # Make sure email was verified
         if request.email not in verified_emails:
+
             raise HTTPException(
                 status_code=400,
                 detail="Email has not been verified."
@@ -473,7 +538,9 @@ async def register_user(request: RegisterRequest):
         )
 
         db.add(new_user)
+
         db.commit()
+
         db.refresh(new_user)
 
         return {
@@ -483,7 +550,13 @@ async def register_user(request: RegisterRequest):
         }
 
     finally:
+
         db.close()
+
+
+# ============================================================
+# LOGIN
+# ============================================================
 
 @app.post("/login")
 async def login_user(request: LoginRequest):
@@ -491,6 +564,7 @@ async def login_user(request: LoginRequest):
     db = SessionLocal()
 
     try:
+
         # Find user by email
         user = (
             db.query(User)
@@ -499,6 +573,7 @@ async def login_user(request: LoginRequest):
         )
 
         if not user:
+
             raise HTTPException(
                 status_code=401,
                 detail="Invalid email or password."
@@ -506,6 +581,7 @@ async def login_user(request: LoginRequest):
 
         # Check email verification
         if not user.email_verified:
+
             raise HTTPException(
                 status_code=403,
                 detail="Please verify your email before logging in."
@@ -518,19 +594,23 @@ async def login_user(request: LoginRequest):
         )
 
         if not password_valid:
+
             raise HTTPException(
                 status_code=401,
                 detail="Invalid email or password."
             )
 
+        # JWT payload
         token_data = {
             "sub": str(user.id),
             "email": user.email,
-            "exp": datetime.now(timezone.utc) + timedelta(
+            "exp": datetime.now(timezone.utc)
+            + timedelta(
                 minutes=JWT_EXPIRE_MINUTES
             )
         }
 
+        # Generate JWT
         access_token = jwt.encode(
             token_data,
             JWT_SECRET_KEY,
@@ -550,7 +630,13 @@ async def login_user(request: LoginRequest):
         }
 
     finally:
+
         db.close()
+
+
+# ============================================================
+# FORGOT PASSWORD
+# ============================================================
 
 @app.post("/forgot-password")
 async def forgot_password(request: OTPRequest):
@@ -558,7 +644,8 @@ async def forgot_password(request: OTPRequest):
     db = SessionLocal()
 
     try:
-        # Check whether the account exists
+
+        # Check whether account exists
         user = (
             db.query(User)
             .filter(User.email == request.email)
@@ -566,22 +653,36 @@ async def forgot_password(request: OTPRequest):
         )
 
         if not user:
+
             raise HTTPException(
                 status_code=404,
                 detail="No account found with this email address."
             )
 
         # Generate OTP
-        otp = str(random.randint(100000, 999999))
+        otp = str(
+            random.randint(
+                100000,
+                999999
+            )
+        )
 
-        # Store OTP separately from registration OTP
-        password_reset_otp_storage[request.email] = otp
+        # Store OTP
+        password_reset_otp_storage[
+            request.email
+        ] = otp
 
         # Send OTP
         response = resend.Emails.send({
+
             "from": "SentinelX <onboarding@resend.dev>",
-            "to": [request.email],
+
+            "to": [
+                request.email
+            ],
+
             "subject": "SentinelX Password Reset Code",
+
             "html": f"""
                 <h2>SentinelX Password Reset</h2>
 
@@ -589,9 +690,15 @@ async def forgot_password(request: OTPRequest):
 
                 <h1>{otp}</h1>
 
-                <p>Enter this code in SentinelX to continue resetting your password.</p>
+                <p>
+                    Enter this code in SentinelX
+                    to continue resetting your password.
+                </p>
 
-                <p>If you did not request a password reset, you can safely ignore this email.</p>
+                <p>
+                    If you did not request a password reset,
+                    you can safely ignore this email.
+                </p>
             """
         })
 
@@ -602,30 +709,46 @@ async def forgot_password(request: OTPRequest):
         }
 
     finally:
+
         db.close()
 
-@app.post("/verify-reset-otp")
-async def verify_reset_otp(request: VerifyOTPRequest):
 
-    stored_otp = password_reset_otp_storage.get(request.email)
+# ============================================================
+# VERIFY PASSWORD RESET OTP
+# ============================================================
+
+@app.post("/verify-reset-otp")
+async def verify_reset_otp(
+    request: VerifyOTPRequest
+):
+
+    stored_otp = password_reset_otp_storage.get(
+        request.email
+    )
 
     if not stored_otp:
+
         raise HTTPException(
             status_code=400,
             detail="No password reset OTP found. Please request a new OTP."
         )
 
     if request.otp != stored_otp:
+
         raise HTTPException(
             status_code=400,
             detail="Invalid password reset OTP."
         )
 
-    # Remove OTP after successful verification
-    del password_reset_otp_storage[request.email]
+    # Remove OTP
+    del password_reset_otp_storage[
+        request.email
+    ]
 
-    # Mark email as verified for password reset
-    password_reset_verified.add(request.email)
+    # Mark email as verified
+    password_reset_verified.add(
+        request.email
+    )
 
     return {
         "success": True,
@@ -633,16 +756,25 @@ async def verify_reset_otp(request: VerifyOTPRequest):
         "message": "Password reset email verified successfully."
     }
 
+
+# ============================================================
+# RESET PASSWORD
+# ============================================================
+
 @app.post("/reset-password")
-async def reset_password(request: ResetPasswordRequest):
+async def reset_password(
+    request: ResetPasswordRequest
+):
 
     if request.email not in password_reset_verified:
+
         raise HTTPException(
             status_code=403,
             detail="Please verify your password reset OTP first."
         )
 
     if len(request.password) < 8:
+
         raise HTTPException(
             status_code=400,
             detail="Password must be at least 8 characters long."
@@ -651,6 +783,7 @@ async def reset_password(request: ResetPasswordRequest):
     db = SessionLocal()
 
     try:
+
         user = (
             db.query(User)
             .filter(User.email == request.email)
@@ -658,12 +791,13 @@ async def reset_password(request: ResetPasswordRequest):
         )
 
         if not user:
+
             raise HTTPException(
                 status_code=404,
                 detail="User account not found."
             )
 
-        # Hash the new password
+        # Hash new password
         new_password_hash = bcrypt.hashpw(
             request.password.encode("utf-8"),
             bcrypt.gensalt()
@@ -673,8 +807,10 @@ async def reset_password(request: ResetPasswordRequest):
 
         db.commit()
 
-        # Password reset is complete
-        password_reset_verified.remove(request.email)
+        # Password reset complete
+        password_reset_verified.remove(
+            request.email
+        )
 
         return {
             "success": True,
@@ -682,4 +818,615 @@ async def reset_password(request: ResetPasswordRequest):
         }
 
     finally:
+
         db.close()
+
+# ============================================================
+# SENTINELX AI - STREAMING
+# ============================================================
+
+from fastapi.responses import StreamingResponse
+import json
+
+# ============================================================
+# SENTINELX AI CHAT HISTORY
+# ============================================================
+
+class CreateAIChatRequest(BaseModel):
+    user_id: int
+    title: str = "New Chat"
+
+
+class SaveAIMessageRequest(BaseModel):
+    chat_id: int
+    role: str
+    content: str
+
+
+# ============================================================
+# CREATE NEW AI CHAT
+# ============================================================
+
+@app.post("/ai-chats")
+async def create_ai_chat(request: CreateAIChatRequest):
+
+    db = SessionLocal()
+
+    try:
+
+        # Check user
+        user = (
+            db.query(User)
+            .filter(User.id == request.user_id)
+            .first()
+        )
+
+        if not user:
+
+            raise HTTPException(
+                status_code=404,
+                detail="User not found."
+            )
+
+        chat = AIChat(
+            user_id=request.user_id,
+            title=request.title.strip() or "New Chat"
+        )
+
+        db.add(chat)
+        db.commit()
+        db.refresh(chat)
+
+        return {
+            "success": True,
+            "chat": {
+                "id": chat.id,
+                "user_id": chat.user_id,
+                "title": chat.title,
+                "created_at": chat.created_at.isoformat()
+                if chat.created_at else None
+            }
+        }
+
+    finally:
+
+        db.close()
+
+
+# ============================================================
+# GET USER AI CHATS
+# ============================================================
+
+@app.get("/ai-chats/{user_id}")
+async def get_ai_chats(user_id: int):
+
+    db = SessionLocal()
+
+    try:
+
+        chats = (
+            db.query(AIChat)
+            .filter(AIChat.user_id == user_id)
+            .order_by(AIChat.updated_at.desc())
+            .all()
+        )
+
+        return {
+            "success": True,
+            "chats": [
+                {
+                    "id": chat.id,
+                    "title": chat.title,
+                    "created_at": (
+                        chat.created_at.isoformat()
+                        if chat.created_at
+                        else None
+                    ),
+                    "updated_at": (
+                        chat.updated_at.isoformat()
+                        if chat.updated_at
+                        else None
+                    )
+                }
+                for chat in chats
+            ]
+        }
+
+    finally:
+
+        db.close()
+
+
+# ============================================================
+# GET SINGLE AI CHAT
+# ============================================================
+
+@app.get("/ai-chats/{user_id}/{chat_id}")
+async def get_ai_chat(
+    user_id: int,
+    chat_id: int
+):
+
+    db = SessionLocal()
+
+    try:
+
+        chat = (
+            db.query(AIChat)
+            .filter(
+                AIChat.id == chat_id,
+                AIChat.user_id == user_id
+            )
+            .first()
+        )
+
+        if not chat:
+
+            raise HTTPException(
+                status_code=404,
+                detail="Chat not found."
+            )
+
+        return {
+            "success": True,
+
+            "chat": {
+                "id": chat.id,
+                "title": chat.title,
+
+                "messages": [
+                    {
+                        "id": message.id,
+                        "role": message.role,
+                        "content": message.content,
+                        "created_at": (
+                            message.created_at.isoformat()
+                            if message.created_at
+                            else None
+                        )
+                    }
+
+                    for message in chat.messages
+                ]
+            }
+        }
+
+    finally:
+
+        db.close()
+
+
+# ============================================================
+# SAVE AI MESSAGE
+# ============================================================
+
+@app.post("/ai-messages")
+async def save_ai_message(
+    request: SaveAIMessageRequest
+):
+
+    db = SessionLocal()
+
+    try:
+
+        chat = (
+            db.query(AIChat)
+            .filter(
+                AIChat.id == request.chat_id
+            )
+            .first()
+        )
+
+        if not chat:
+
+            raise HTTPException(
+                status_code=404,
+                detail="Chat not found."
+            )
+
+        if request.role not in [
+            "user",
+            "assistant"
+        ]:
+
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid message role."
+            )
+
+        content = request.content.strip()
+
+        if not content:
+
+            raise HTTPException(
+                status_code=400,
+                detail="Message content is required."
+            )
+
+        message = AIMessage(
+            chat_id=request.chat_id,
+            role=request.role,
+            content=content
+        )
+
+        db.add(message)
+
+        # Update chat timestamp
+        chat.updated_at = datetime.now(timezone.utc)
+
+        db.commit()
+        db.refresh(message)
+
+        return {
+            "success": True,
+
+            "message": {
+                "id": message.id,
+                "chat_id": message.chat_id,
+                "role": message.role,
+                "content": message.content,
+                "created_at": (
+                    message.created_at.isoformat()
+                    if message.created_at
+                    else None
+                )
+            }
+        }
+
+    finally:
+
+        db.close()
+
+
+# ============================================================
+# DELETE AI CHAT
+# ============================================================
+
+@app.delete("/ai-chats/{user_id}/{chat_id}")
+async def delete_ai_chat(
+    user_id: int,
+    chat_id: int
+):
+
+    db = SessionLocal()
+
+    try:
+
+        chat = (
+            db.query(AIChat)
+            .filter(
+                AIChat.id == chat_id,
+                AIChat.user_id == user_id
+            )
+            .first()
+        )
+
+        if not chat:
+
+            raise HTTPException(
+                status_code=404,
+                detail="Chat not found."
+            )
+
+        db.delete(chat)
+
+        db.commit()
+
+        return {
+            "success": True,
+            "message": "Chat deleted successfully."
+        }
+
+    finally:
+
+        db.close()
+
+
+# ============================================================
+# SENTINELX AI - STREAMING + CONVERSATION MEMORY
+# ============================================================
+
+@app.post("/ai-chat")
+async def ai_chat(request: AIChatRequest):
+
+    message = request.message.strip()
+
+    if not message:
+        raise HTTPException(
+            status_code=400,
+            detail="Message is required."
+        )
+
+    # --------------------------------------------------------
+    # BUILD CONVERSATION HISTORY
+    # --------------------------------------------------------
+
+    conversation = ""
+
+    for item in request.history:
+
+        role = item.get("role", "")
+        text = item.get("text", "").strip()
+
+        if not text:
+            continue
+
+        if role == "user":
+            conversation += f"User: {text}\n"
+
+        elif role == "assistant":
+            conversation += f"SentinelX AI: {text}\n"
+
+    # --------------------------------------------------------
+    # SENTINELX AI PROMPT
+    # --------------------------------------------------------
+
+    prompt = f"""
+You are SentinelX AI, a cybersecurity assistant inside
+the SentinelX cybersecurity platform.
+
+Your job is to help users with:
+
+- Cybersecurity
+- Phishing
+- Malware
+- Password security
+- Privacy
+- Network security
+- Online safety
+- Account security
+- Social engineering
+- Safe browsing
+- Security best practices
+
+Rules:
+
+1. Give concise and useful answers.
+2. Keep explanations beginner-friendly.
+3. Explain technical terms when necessary.
+4. Focus on defensive and authorized cybersecurity.
+5. Never provide instructions for credential theft,
+   malware deployment, unauthorized access,
+   destructive attacks, or evasion.
+6. Never claim that a website or file is safe without
+   sufficient evidence.
+7. For security questions, explain the risk and
+   recommended defensive action.
+8. If the user asks something unrelated to cybersecurity,
+   politely explain that you specialize in cybersecurity.
+9. Use the previous conversation to understand follow-up
+   questions.
+10. Do not repeat the entire conversation unnecessarily.
+
+Previous conversation:
+
+{conversation}
+
+Current user question:
+
+{message}
+
+Answer as SentinelX AI:
+"""
+
+    # --------------------------------------------------------
+    # STREAM FROM OLLAMA
+    # --------------------------------------------------------
+
+    def generate_response():
+
+        try:
+
+            response = requests.post(
+                "http://127.0.0.1:11434/api/generate",
+
+                json={
+                    "model": "llama3.2",
+
+                    "prompt": prompt,
+
+                    "stream": True,
+
+                    "options": {
+                        "temperature": 0.2,
+                        "num_predict": 120
+                    }
+                },
+
+                stream=True,
+
+                timeout=120
+            )
+
+            response.raise_for_status()
+
+            # ------------------------------------------------
+            # READ OLLAMA STREAM
+            # ------------------------------------------------
+
+            for line in response.iter_lines():
+
+                if not line:
+                    continue
+
+                try:
+
+                    data = json.loads(
+                        line.decode("utf-8")
+                    )
+
+                    chunk = data.get(
+                        "response",
+                        ""
+                    )
+
+                    if chunk:
+                        yield chunk
+
+                    if data.get("done"):
+                        break
+
+                except json.JSONDecodeError:
+                    continue
+
+        except requests.exceptions.ConnectionError:
+
+            yield (
+                "\n\n⚠️ Unable to connect to Ollama.\n"
+                "Make sure Ollama is running."
+            )
+
+        except requests.exceptions.Timeout:
+
+            yield (
+                "\n\n⚠️ SentinelX AI took too long "
+                "to respond. Please try again."
+            )
+
+        except requests.exceptions.RequestException as e:
+
+            yield (
+                f"\n\n⚠️ Ollama connection failed: {str(e)}"
+            )
+
+        except Exception as e:
+
+            yield (
+                f"\n\n⚠️ AI processing error: {str(e)}"
+            )
+
+    # --------------------------------------------------------
+    # RETURN STREAM
+    # --------------------------------------------------------
+
+    return StreamingResponse(
+        generate_response(),
+        media_type="text/plain"
+    )
+
+    # --------------------------------------------------------
+    # SENTINELX AI PROMPT
+    # --------------------------------------------------------
+
+    prompt = f"""
+You are SentinelX AI, a cybersecurity assistant.
+
+Help with:
+- Cybersecurity
+- Phishing
+- Malware
+- Password security
+- Privacy
+- Network security
+- Online safety
+
+Rules:
+- Give concise, beginner-friendly answers.
+- Focus on defensive cybersecurity.
+- Explain technical terms simply.
+- Never help with credential theft,
+  malware deployment, unauthorized access,
+  or destructive attacks.
+- For unrelated questions, politely say
+  you specialize in cybersecurity.
+
+User:
+{message}
+
+Answer:
+"""
+
+    # --------------------------------------------------------
+    # STREAM OLLAMA RESPONSE
+    # --------------------------------------------------------
+
+    def generate_response():
+
+        try:
+
+            response = requests.post(
+                "http://127.0.0.1:11434/api/generate",
+
+                json={
+                    "model": "llama3.2",
+                    "prompt": prompt,
+                    "stream": True,
+                    "options": {
+                        "temperature": 0.2,
+                        "num_predict": 120
+                    }
+                },
+
+                stream=True,
+                timeout=120
+            )
+
+            response.raise_for_status()
+
+            # ------------------------------------------------
+            # READ OLLAMA STREAM
+            # ------------------------------------------------
+
+            for line in response.iter_lines():
+
+                if not line:
+                    continue
+
+                try:
+
+                    data = json.loads(
+                        line.decode("utf-8")
+                    )
+
+                    chunk = data.get(
+                        "response",
+                        ""
+                    )
+
+                    if chunk:
+
+                        yield chunk
+
+                    # Ollama signals completion
+                    if data.get("done"):
+
+                        break
+
+                except json.JSONDecodeError:
+
+                    continue
+
+        except requests.exceptions.ConnectionError:
+
+            yield (
+                "\n\n⚠️ Unable to connect to Ollama. "
+                "Make sure Ollama is running."
+            )
+
+        except requests.exceptions.Timeout:
+
+            yield (
+                "\n\n⚠️ SentinelX AI took too long "
+                "to respond. Please try again."
+            )
+
+        except requests.exceptions.RequestException as e:
+
+            yield (
+                f"\n\n⚠️ Ollama connection failed: {str(e)}"
+            )
+
+        except Exception as e:
+
+            yield (
+                f"\n\n⚠️ AI processing error: {str(e)}"
+            )
+
+    # --------------------------------------------------------
+    # RETURN STREAM
+    # --------------------------------------------------------
+
+    return StreamingResponse(
+        generate_response(),
+        media_type="text/plain"
+    )
