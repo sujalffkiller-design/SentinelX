@@ -2,4 +2,7 @@
 venv/
 __pycache__/
 *.pyc
+node_modules/
+.venv/
+venv/
 sentinelx.db

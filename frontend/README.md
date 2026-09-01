@@ -1,16 +1,138 @@
-# React + Vite
+# 🛡️ SentinelX
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### AI-Powered Cybersecurity Platform
 
-Currently, two official plugins are available:
+SentinelX is a modern cybersecurity platform designed to help users detect common online security threats through a collection of security tools and an intelligent cybersecurity assistant.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The project combines a React frontend with a FastAPI backend to provide a centralized security experience.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Features
 
-## Expanding the ESLint configuration
+### 🎣 Phishing Detector
+Analyze URLs and identify common phishing indicators such as:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Suspicious keywords
+- Missing HTTPS
+- IP-based URLs
+- URL obfuscation
+- Suspicious domains
+- Excessive subdomains
+- Punycode domains
+- Unusual ports
+
+---
+
+### 🦠 Malware Scanner
+Upload a file and perform a security scan through the SentinelX malware scanning system.
+
+Features include:
+
+- File scanning
+- Threat status
+- Risk score
+- Threat level
+- Scan results
+
+---
+
+### 🔑 Password Auditor
+Evaluate password security and identify potential password weaknesses.
+
+---
+
+### 🔍 URL Scanner
+Analyze websites for common security indicators.
+
+The scanner evaluates:
+
+- HTTPS
+- IP addresses
+- URL length
+- Suspicious keywords
+- Obfuscation
+- Subdomains
+- Punycode
+- URL encoding
+- Port analysis
+
+---
+
+### 📊 Security Dashboard
+
+The SentinelX dashboard provides a centralized security overview.
+
+It displays:
+
+- Security Score
+- Threats Detected
+- Suspicious Threats
+- Overall Risk Level
+- Recent Security Activity
+- Quick Actions
+
+---
+
+### 📜 Scan History
+
+SentinelX keeps track of security scan results so users can review their previous activity.
+
+---
+
+### 👤 User Authentication
+
+SentinelX includes:
+
+- User registration
+- Email verification
+- OTP authentication
+- Login
+- JWT authentication
+- Forgot password
+- Password reset
+- Profile management
+- Account settings
+
+---
+
+### 🤖 SentinelX AI
+
+SentinelX includes an AI cybersecurity assistant designed to help users understand cybersecurity concepts and security results.
+
+The goal is to provide an experience similar to an AI chat assistant while keeping the system focused specifically on cybersecurity.
+
+---
+
+## 🏗️ Project Architecture
+
+```text
+SentinelX
+│
+├── frontend/
+│   │
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Auth/
+│   │   │   ├── Dashboard/
+│   │   │   ├── MalwareScanner/
+│   │   │   ├── PasswordAuditor/
+│   │   │   ├── PhishingDetector/
+│   │   │   ├── ScanHistory/
+│   │   │   └── URLScanner/
+│   │   │
+│   │   ├── pages/
+│   │   └── styles/
+│   │
+│   └── package.json
+│
+├── backend/
+│   │
+│   ├── main.py
+│   ├── database.py
+│   ├── models.py
+│   ├── .env
+│   └── ...
+│
+├── .gitignore
+└── README.md
