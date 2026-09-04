@@ -21,7 +21,7 @@ function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const API_URL = "http://127.0.0.1:8000";
+  const API_URL = "https://sentinelx-1-t4j1.onrender.com";
 
   // -----------------------------
   // Send OTP
