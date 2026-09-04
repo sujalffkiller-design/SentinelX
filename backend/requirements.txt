@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+python-dotenv
+resend
+requests
+bcrypt
+python-jose
+python-multipart
