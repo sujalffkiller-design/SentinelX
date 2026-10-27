@@ -5,7 +5,7 @@ import "./ForgotPassword.css";
 function ForgotPassword() {
   const navigate = useNavigate();
 
-  const API_URL = "https://sentinelx-1-t4j1.onrender.com";
+  const API_URL = "https://sentinelx-qj0g.onrender.com";
 
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");

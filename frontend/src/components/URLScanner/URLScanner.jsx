@@ -18,7 +18,7 @@ import {
 
 import "./URLScanner.css";
 
-const API_URL = "https://sentinelx-1-t4j1.onrender.com";
+const API_URL = "https://sentinelx-qj0g.onrender.com";
 
 function URLScanner() {
   const [url, setUrl] = useState("");
